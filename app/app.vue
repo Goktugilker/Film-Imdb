@@ -1,14 +1,31 @@
-<template>
-  <div>
-    <h1 class="text-4xl font-bold">
-      Welcome to My Nuxt App
-    </h1>
-    
-  </div>
+<script setup lang="ts">
+
+</script>
+
+<template class="flex flex-row w-dvw h-dvh overflow-hidden">
+  <Uapp>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </Uapp>
 </template>
 
 <style>
 div {
   font-family: Bitcount Prop Single, sans-serif;
+}
+@keyframes scrollX {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-x {
+  animation: scrollX 30s linear infinite;
+  display: flex;
+  width: max-content;
 }
 </style>
