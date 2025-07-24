@@ -1,3 +1,13 @@
+# review
+
+- .vscode/settings.json eksik
+- nuxtın auto-import özelliği kullan (örn: import { isDark, toggleTheme } from '~/utils/theme' gibi importlara gerek yok)
+- filmleri çekememe sebebin genel film listesini çekmeye çalışman değil sen şuanda bir kullanıcının filmlerini çekmeye çalışıyorsun dökümanları daha dikkatli oku!
+- sayfa yönlendirmelerini path vererek değil name vererek yap.
+- storeları bu kadar detalı ayırmana gerek yok movie.ts isimli bir store aç içerisinde movieList ve fetchMovieList bulundur. fetchMovieList parametre olarak ne alıyorsa o isteğin sonucunu direkt movieListe atsın.
+
+Küçük bir ipucu: movie ve tv olarak ayrımana gerek yok tek bir media.ts işini çözecektir
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
