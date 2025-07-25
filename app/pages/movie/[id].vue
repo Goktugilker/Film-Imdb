@@ -24,7 +24,7 @@ onMounted(async () => {
   <div class="overflow-hidden flex flex-col justify-center items-center">
     <div class="w-full max-w-4xl p-4">
       <h1 class="text-3xl font-bold mb-4">{{ selectedMovie?.title }}</h1>
-      <img :src="`https://image.tmdb.org/t/p/w500${selectedMovie?.backdrop_path}`" alt="Movie Backdrop" class="w-full h-64 object-cover mb-4">
+      <img :src="`https://image.tmdb.org/t/p/w500${selectedMovie?.backdrop_path}`" alt="Movie Backdrop" class="w-full h-full object-cover mb-4">
       <p class="text-lg mb-2">Overview:</p>
       <p class="text-lg">{{ selectedMovie?.overview }}</p>
       <p class="mt-4 text-lg">Release Date: {{ selectedMovie?.release_date }}</p>

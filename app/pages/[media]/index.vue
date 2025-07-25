@@ -15,19 +15,19 @@ onMounted(async () => {
 <template>
 <div
  v-if="page === 'movies'"
-  class="flex h-dvh w-dvw">
-    <h1 class="text-3xl font-bold justify-center items-center">Filmler</h1>
+  class="flex flex-wrap h-full w-full justify-center">
+    <h1 class="text-3xl font-bold w-full text-center mb-4">Filmler</h1>
     <div
       v-for="(movie, id) in mediaStore.Movies"
       :key="id"
-      class="flex flex-wrap gap-4 items-center justify-center w-full"
+      class="flex flex-wrap gap-4 justify-center items-center p-4 w-[200px]" 
     >
-      <UCard class="min-w-[200px]" @click="$router.push(`/movie/${movie.id}`)">
+      <UCard class="w-full" @click="$router.push(`/movie/${movie.id}`)">
         <UCardHeader>
           <img :src="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`" alt="">
         </UCardHeader>
         <UCardBody class="flex justify-center items-center">
-          <h1 class="text-2xl font-bold">{{ movie.title }}</h1>
+          <h1 class="text-2xl font-bold text-center">{{ movie.title }}</h1>
         </UCardBody>
       </UCard>
     </div>
