@@ -2,7 +2,7 @@
 
 </script>
 
-<template class="flex flex-row w-dvw h-dvh overflow-hidden">
+<template class="flex w-dvw h-dvh overflow-hidden">
   <Uapp>
     <NuxtLayout>
       <NuxtPage />

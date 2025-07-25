@@ -9,7 +9,7 @@ const selectedTvShow = ref<Media>()
 onMounted(async () => {
   await mediaStore.fetchMovieList()
   await mediaStore.fetchTvList()
-  
+   
   if (tvId) {
     const tvShow = ref<Media>()
     tvShow.value = mediaStore.TvShows.find(tv => Number(tv.id) === tvId)
