@@ -1,10 +1,11 @@
 <script setup lang="ts">
 const route = useRoute();
 const page = route.params.media as string;
+
 </script>
 
 <template>
-<div v-if="page === 'movie'">
+<div v-if="page === 'movies'">
     <h1>Filmler</h1>
 </div>
 <div v-else-if="page === 'tv'">

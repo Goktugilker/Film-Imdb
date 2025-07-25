@@ -22,14 +22,14 @@ import { isDark, toggleTheme } from '~/utils/theme'
     label="Filmler"
     icon="mdi:film"
     variant="link"
-    @click="$router.push('/media/movie')"
+    @click="$router.push('/movies')"
   />
   <UButton
     size="xl"
     label="Tv"
     icon="mdi:television"
     variant="link"
-    @click="$router.push('/media/tv')"
+    @click="$router.push('/tv')"
   />
   <UButton
     size="xl"
