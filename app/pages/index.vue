@@ -1,28 +1,45 @@
 <script setup lang="ts">
 
-const favoriteMovie = useFavoriteMovie()
+const mediaStore = useMediaStore()
 onMounted(async () => {
-  await favoriteMovie.fetchData()
+  await mediaStore.fetchMovieList()
+  await mediaStore.fetchTvList()
+  
 })
 </script>
 
 <template>
-  <div class="overflow-hidden justify-center items-center">
-    <h1 class="text-2xl font-bold">
-      FİLMLER
-    </h1>
+  <div class="overflow-hidden flex flex-col justify-center items-center">
     <div>
-      {{ favoriteMovie.Movies.length }} adet film
+
+      <h1 class="text-2xl font-bold">
+        FİLMLER
+      </h1>
     </div>
-    <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2">
-      <UCard v-for="(movie,id) in favoriteMovie.Movies" :key="id" class="min-w[200px]  " @click="$router.push(`/movie/${id}`)">
+    <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2 ">
+      <UCard v-for="(movie,id) in mediaStore.Movies" :key="id" class="min-w[200px]  " @click="$router.push(`/movie/${movie.id}`)">
         <UCardHeader>
-          <h1 class="text-2xl font-bold">
-            Welcome to the Home Page
-          </h1>
+          <img :src="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`" alt="">
         </UCardHeader>
-        <UCardBody @click="$router.push(`/movie/${id}`)">
-          <p>This is the main content area of the home page.</p>
+        <UCardBody class="flex justify-center items-center">
+          <h1 class="text-2xl font-bold">
+            {{ movie.title }}
+          </h1>
+        </UCardBody>
+      </UCard>
+    </div>
+    <h1 class="text-2xl font-bold">
+      DİZİLER
+    </h1>
+    <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2">
+      <UCard v-for="(tv,id) in mediaStore.TvShows" :key="id" class="min-w[200px]  " @click="$router.push(`/tv/${tv.id}`)">
+        <UCardHeader>
+          <img :src="`https://image.tmdb.org/t/p/w500${tv.backdrop_path}`" alt="">
+        </UCardHeader>
+        <UCardBody class="flex justify-center items-center">
+          <h1 class="text-3xl font-bold">
+            {{ tv.name }}
+          </h1>
         </UCardBody>
       </UCard>
     </div>

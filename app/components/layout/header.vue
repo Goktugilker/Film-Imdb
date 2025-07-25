@@ -15,24 +15,21 @@ import { isDark, toggleTheme } from '~/utils/theme'
     label="Anasayfa"
     icon="mdi:home"
     variant="link"
+    @click="$router.push('/')"
   />
   <UButton
     size="xl"
     label="Filmler"
     icon="mdi:film"
     variant="link"
+    @click="$router.push('/media/movie')"
   />
   <UButton
     size="xl"
     label="Tv"
     icon="mdi:television"
     variant="link"
-  />
-  <UButton
-    size="xl"
-    label="Diziler"
-    icon="mdi:television-classic"
-    variant="link"
+    @click="$router.push('/media/tv')"
   />
   <UButton
     size="xl"
