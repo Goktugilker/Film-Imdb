@@ -17,7 +17,7 @@ onMounted(async () => {
       </h1>
     </div>
     <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2 ">
-      <UCard v-for="(movie,id) in mediaStore.Movies" :key="id" class="min-w[200px]  " @click="$router.push(`/movie/${movie.id}`)">
+      <UCard v-for="(movie,id) in mediaStore.Movies" :key="id" class="min-w[200px]  " @click="$router.push({name: 'media-id', params: {media: 'movies', id: movie.id}})">
         <UCardHeader>
           <img :src="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`" alt="">
         </UCardHeader>
@@ -32,7 +32,7 @@ onMounted(async () => {
       DİZİLER
     </h1>
     <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2">
-      <UCard v-for="(tv,id) in mediaStore.TvShows" :key="id" class="min-w[200px]  " @click="$router.push(`/tv/${tv.id}`)">
+      <UCard v-for="(tv,id) in mediaStore.TvShows" :key="id" class="min-w[200px]  " @click="$router.push({name: 'media-id', params: {media: 'tv', id: tv.id}})">
         <UCardHeader>
           <img :src="`https://image.tmdb.org/t/p/w500${tv.backdrop_path}`" alt="">
         </UCardHeader>
