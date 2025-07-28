@@ -3,13 +3,12 @@ import { isDark, toggleTheme } from '~/utils/theme'
 </script>
 
 <template>
-
-    <UButton
+  <UButton
     size="xl"
     icon="mdi:github"
     variant="link"
     href="https://github.com/goktugilker"
-    />
+  />
   <UButton
     size="xl"
     label="Anasayfa"
@@ -36,5 +35,5 @@ import { isDark, toggleTheme } from '~/utils/theme'
     :icon="isDark ? 'mdi:weather-night' : 'mdi:weather-sunny'"
     variant="ghost"
     @click="toggleTheme"
-    />
+  />
 </template>

@@ -1,9 +1,9 @@
 <template>
   <header class=" bg-[var(--ui-bg-layout)] p-4 flex justify-between items-center w-full">
-    <LayoutHeader/>
+    <LayoutHeader />
   </header>
-  <slot/>
+  <slot />
   <footer class="bg-[var(--ui-bg-layout)] p-4 flex justify-center items-center w-full">
-    <LayoutFooter/>
+    <LayoutFooter />
   </footer>
 </template>
