@@ -24,7 +24,7 @@ div {
 }
 
 .animate-scroll-x {
-  animation: scrollX 30s linear infinite;
+  animation: scrollX 50s linear infinite;
   display: flex;
   width: max-content;
 }
