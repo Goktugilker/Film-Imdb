@@ -12,7 +12,6 @@ const selectedMovie = ref<Media>()
 onMounted(async () => {
   if (mediaType === 'movies') {
     await mediaStore.fetchMovieList()
-    await mediaStore.fetchTvList()
     selectedMovie.value = mediaStore.Movies.find(movie => Number(movie.id) === movieId)
     if (movieId) {
       const movie = ref<Media>()
@@ -23,7 +22,6 @@ onMounted(async () => {
     }
   }
   else if (mediaType === 'tv') {
-    await mediaStore.fetchMovieList()
     await mediaStore.fetchTvList()
 
     if (tvId) {
@@ -75,6 +73,11 @@ onMounted(async () => {
       <h1 class="text-3xl font-bold mb-4">
         {{ selectedTvShow?.name }}
       </h1>
+      <iframe class="w-full h-64 mb-4">
+        <p class="text-lg mb-2">
+          Trailer:
+        </p>
+      </iframe>
       <img :src="`https://image.tmdb.org/t/p/w500${selectedTvShow?.backdrop_path}`" alt="TV Show Backdrop" class="w-full h-64 object-cover mb-4">
       <p class="text-lg mb-2">
         Overview:

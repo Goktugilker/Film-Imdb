@@ -23,7 +23,7 @@ onMounted(async () => {
     <div
       v-for="(movie, id) in mediaStore.Movies"
       :key="id"
-      class="flex flex-wrap gap-4 justify-center items-center p-4"
+      class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >
       <UCard class="w-full" @click="$router.push({ name: 'media-id', params: { media: 'movies', id: movie.id } })">
         <UCardHeader>
@@ -44,7 +44,7 @@ onMounted(async () => {
     <div
       v-for="(tv, id) in mediaStore.TvShows"
       :key="id"
-      class="flex flex-wrap gap-4 justify-center items-center p-4"
+      class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >
       <UCard class="w-full" @click="$router.push({ name: 'media-id', params: { media: 'tv', id: tv.id } })">
         <UCardHeader>
