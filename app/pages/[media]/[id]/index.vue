@@ -2,16 +2,20 @@
 import type { Media } from '~/type'
 
 const route = useRoute()
+const videostore = useVideoStore()
 const mediaStore = useMediaStore()
 const mediaType = route.params.media as string
 const movieId = Number(route.params.id)
 const tvId = Number(route.params.id)
 const selectedTvShow = ref<Media>()
-const selectedMovie = ref<Media>()
+const selectedMovie = ref<Media>() 
+
+
 
 onMounted(async () => {
   if (mediaType === 'movies') {
     await mediaStore.fetchMovieList()
+    await videostore.fetchMovieVideos(movieId)
     selectedMovie.value = mediaStore.Movies.find(movie => Number(movie.id) === movieId)
     if (movieId) {
       const movie = ref<Media>()
@@ -42,6 +46,17 @@ onMounted(async () => {
         {{ selectedMovie?.title }}
       </h1>
       <img :src="`https://image.tmdb.org/t/p/w500${selectedMovie?.backdrop_path}`" alt="Movie Backdrop" class="w-full h-full object-cover mb-4">
+      <div class="flex flex-row gap-4 mb-4">
+        <div v-if="videostore.movieVideos.length >= 3" class="flex flex-row gap-4 mb-4">
+          <iframe v-for="(video, id) in 3" :key="id" class="w-1/3 h-64 mb-4" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+        </div>
+        <div v-else-if="videostore.movieVideos.length === 2" class="flex flex-row gap-4 mb-4 w-1/2">
+          <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-1/2 h-64 mb-4" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+        </div>
+        <div v-else-if="videostore.movieVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
+          <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-full h-64 mb-4" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+        </div>
+      </div>
       <p class="text-lg mb-2">
         Overview:
       </p>
@@ -73,11 +88,10 @@ onMounted(async () => {
       <h1 class="text-3xl font-bold mb-4">
         {{ selectedTvShow?.name }}
       </h1>
-      <iframe class="w-full h-64 mb-4">
-        <p class="text-lg mb-2">
-          Trailer:
-        </p>
-      </iframe>
+      <iframe class="w-full h-64 mb-4" frameborder="0" allowfullscreen />
+      <p class="text-lg mb-2">
+        Trailer:
+      </p>
       <img :src="`https://image.tmdb.org/t/p/w500${selectedTvShow?.backdrop_path}`" alt="TV Show Backdrop" class="w-full h-64 object-cover mb-4">
       <p class="text-lg mb-2">
         Overview:
@@ -92,7 +106,7 @@ onMounted(async () => {
         Popularity: {{ selectedTvShow?.popularity }}
       </p>
       <p class="mt-2 text-lg">
-        Vote Count: {{ selectedTvShow?. vote_count }}
+        Vote Count: {{ selectedTvShow?.vote_count }}
       </p>
       <p class="mt-2 text-lg">
         Vote Average: {{ selectedTvShow?.vote_average }}
