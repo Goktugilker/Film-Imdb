@@ -58,14 +58,14 @@ export const useMediaStore = defineStore('MediaStore', () => {
   }
 
   return {
+    fetchTvList,
+    fetchTvVideos,
+    fetchMovieList,
     apiKey,
     accessToken,
-    fetchMovieList,
-    fetchTvList,
     Movies,
     TvShows,
     selectedMovie,
-    fetchTvVideos,
     searchQuery,
     filteredMovies,
     selectedTvShow,

@@ -35,11 +35,12 @@ export const useSearchStore = defineStore('SearchStore', () => {
   }
 
     return {
-        resultMovies,
-        resultTv,
-        results,
         search,
         searchMovies,
         searchTv,
+        resultMovies,
+        resultTv,
+        results,
+        
     }
 })
