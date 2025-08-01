@@ -6,9 +6,12 @@ export interface Media {
   genre_ids: number[]
   id: string
   original_language: string
+  number_of_seasons?: number
+  number_of_episodes?: number
   original_title: string
   overview: string
   popularity: number
+  key?: string // for videos
   poster_path: string
   release_date?: string
   first_air_date?: string
@@ -40,6 +43,16 @@ export interface Media {
   external_ids?: ExternalIds
   // cast
   character?: string
+  profile_path?: string
+  // reviews
+  author?: string
+  author_details?: {
+    name?: string
+    username?: string
+    avatar_path?: string
+    rating?: number
+  }
+  content?: string
 }
 
 export interface Person {

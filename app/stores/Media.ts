@@ -10,11 +10,11 @@ export const useMediaStore = defineStore('MediaStore', () => {
   const selectedMovie = ref<Media[]>([])
   const selectedTvShow = ref<Media>()
   const searchQuery = ref('')
-  
+
   const filteredMovies = computed(() => {
     const All = [...Movies.value, ...TvShows.value]
     return All.filter((item) => {
-      const searchField = item.title || item.name 
+      const searchField = item.title || item.name
       return searchField?.toLowerCase().includes(searchQuery.value.toLowerCase())
     })
   })
@@ -25,8 +25,6 @@ export const useMediaStore = defineStore('MediaStore', () => {
       Authorization: accessToken.value ? `Bearer ${accessToken.value}` : '',
     },
   }
-  
-   
 
   async function fetchMovieList() {
     if (!moviefetch.value) {
@@ -69,6 +67,6 @@ export const useMediaStore = defineStore('MediaStore', () => {
     searchQuery,
     filteredMovies,
     selectedTvShow,
-    
+
   }
 })

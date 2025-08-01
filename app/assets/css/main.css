@@ -3,7 +3,9 @@
 
 :root {
   --ui-bg-layout: oklch(92% 0.004 286.32);
+  --ui-txt-color: oklch(0% 0.004 286.32);
 }
 .dark {
   --ui-bg-layout: #27272a; /* zinc-800 for dark mode */
+  --ui-txt-color: #f4f4f5; /* zinc-100 for dark mode */
 }

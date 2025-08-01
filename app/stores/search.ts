@@ -34,13 +34,13 @@ export const useSearchStore = defineStore('SearchStore', () => {
     resultTv.value = data.results
   }
 
-    return {
-        search,
-        searchMovies,
-        searchTv,
-        resultMovies,
-        resultTv,
-        results,
-        
-    }
+  return {
+    search,
+    searchMovies,
+    searchTv,
+    resultMovies,
+    resultTv,
+    results,
+
+  }
 })

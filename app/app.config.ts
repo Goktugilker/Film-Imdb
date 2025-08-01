@@ -5,6 +5,6 @@ export default defineAppConfig({
       secondary: 'zinc',
       neutral: 'zinc',
     },
-    
+
   },
 })

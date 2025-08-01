@@ -1,5 +1,5 @@
 <template>
-  <header class=" bg-[var(--ui-bg-layout)] p-4 flex justify-between items-center w-full">
+  <header class=" bg-[var(--ui-bg-layout)] p-4 flex">
     <LayoutHeader />
   </header>
   <slot />

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  name: 'Media List',
+})
 const route = useRoute()
 const page = route.params.media as string
 const mediaStore = useMediaStore()
@@ -25,9 +28,9 @@ onMounted(async () => {
       :key="id"
       class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >
-      <UCard class="w-full" @click="$router.push({ name: 'media-id', params: { media: 'movies', id: movie.id } })">
+      <UCard class="w-full" @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: movie.id } })">
         <UCardHeader>
-          <img :src="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`" alt="">
+          <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="">
         </UCardHeader>
         <UCardBody class="flex justify-center items-center">
           <h1 class="text-2xl font-bold text-center">
@@ -46,9 +49,9 @@ onMounted(async () => {
       :key="id"
       class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >
-      <UCard class="w-full" @click="$router.push({ name: 'media-id', params: { media: 'tv', id: tv.id } })">
+      <UCard class="w-full" @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: tv.id } })">
         <UCardHeader>
-          <img :src="`https://image.tmdb.org/t/p/w500${tv.backdrop_path}`" alt="">
+          <img :src="`https://image.tmdb.org/t/p/w500${tv.poster_path}`" alt="">
         </UCardHeader>
         <UCardBody class="flex justify-center items-center">
           <h1 class="text-2xl font-bold text-center">
