@@ -48,7 +48,7 @@ watch(() => mediaStore.searchQuery, () => {
         FİLMLER
       </h1>
     </div>
-    <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px]">
+    <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px] ">
       <UCard v-for="(media, id) in mediaStore.Movies.slice(0, 40)" :key="id" class="min-w-[200px] w-[200px] cursor-pointer hover:scale-105 transition-transform" @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: media.id } })">
         <UCardHeader>
           <img :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`" alt="">

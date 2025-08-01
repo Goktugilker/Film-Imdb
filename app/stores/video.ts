@@ -13,15 +13,28 @@ export const useVideoStore = defineStore('VideoStore', () => {
     },
   }
   async function fetchMovieVideos(movieId: number) {
-    movieVideos.value = []
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`, options)
-    const data = await response.json()
-    movieVideos.value = data.results
+    if (lang.value === 'tr-TR') {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=tr-TR`, options)
+      const data = await response.json()
+      movieVideos.value = data.results
+    }
+    if (lang.value === 'en-US') {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`, options)
+      const data = await response.json()
+      movieVideos.value = data.results
+    }
   }
   async function fetchTvVideos(tvId: number) {
-    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/videos?language=en-US`, options)
-    const data = await response.json()
-    tvVideos.value = data.results
+    if (lang.value === 'tr-TR') {
+      const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/videos?language=tr-TR`, options)
+      const data = await response.json()
+      tvVideos.value = data.results
+    }
+    if (lang.value === 'en-US') {
+      const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/videos?language=en-US`, options)
+      const data = await response.json()
+      tvVideos.value = data.results
+    }
   }
   return {
     movieVideos,

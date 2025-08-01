@@ -1,5 +1,4 @@
 <script setup>
-import { isDark, toggleTheme } from '~/utils/theme'
 </script>
 
 <template>
@@ -36,6 +35,12 @@ import { isDark, toggleTheme } from '~/utils/theme'
       />
     </div>
     <div>
+      <UButton
+        size="xl"
+        :icon="lang === 'en-US' ? 'flag:us-1x1' : 'flag:tr-1x1'"
+        variant="ghost"
+        @click="toggleLanguage"
+      />
       <UButton
         size="xl"
         :icon="isDark ? 'mdi:weather-night' : 'mdi:weather-sunny'"

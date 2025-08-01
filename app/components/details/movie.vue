@@ -9,6 +9,9 @@ const mediaType: string | undefined = (route.params.media as MediaType | undefin
 const movieId = Number(route.params.id)
 
 onMounted(async () => {
+  detailsStore.details = []
+  detailsStore.cast = []
+  videostore.movieVideos = []
   await detailsStore.fetchDetails(movieId, 'movie')
   await detailsStore.fetchCreditsMovie(movieId)
   await ratedStore.fetchRatedMovies()
@@ -33,12 +36,12 @@ onMounted(async () => {
     </div>
     <div class="w-full p-4 flex flex-col md:flex-row gap-4">
       <div class="w-full md:w-1/4">
-        <h1 class="text-2xl md:text-3xl font-bold mb-4">
-          {{ detailsStore.details[0]?.title }}
-        </h1>
         <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="Movie Backdrop" class="w-full object-cover mb-4">
       </div>
       <div class="w-full md:w-3/4 md:p-16">
+        <h1 class="text-xl md:text-3xl font-bold mb-4">
+          {{ detailsStore.details[0]?.title }}
+        </h1>
         <div class="flex flex-row gap-4 w-full mt-6">
           <div class="w-1/2 flex flex-col">
             <p class="mt-2 text-lg md:text-xl --ui-txt-color">
@@ -73,8 +76,8 @@ onMounted(async () => {
           </div>
         </div>
         <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
-          <u-card v-for="(cast, index) in detailsStore.cast.slice(0, 10)" :key="index" class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0">
-            <img :src="`https://image.tmdb.org/t/p/w200${cast.profile_path}`" alt="Cast Image" class="w-16 h-16 object-cover rounded-full">
+          <u-card v-for="(cast, index) in detailsStore.cast.slice(0, 20)" :key="index" class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0">
+            <img :src="`https://image.tmdb.org/t/p/w200${cast.profile_path}`" alt="Cast Image" class="w-20 h-20 object-cover rounded-full">
             <div>
               <h2 class="text-lg font-semibold whitespace-nowrap">
                 {{ cast.name }}
@@ -98,8 +101,8 @@ onMounted(async () => {
         <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-full aspect-video mb-4 " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
       </div>
     </div>
-    <h1 class="text-lg md:text-xl font-bold">
-      Top Rated TV Shows
+    <h1 class="text-lg md:text-xl font-bold pl-6">
+      Top Rated Movies
     </h1>
     <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
       <div v-for="(rated, index) in ratedStore.rated" :key="index">
@@ -107,7 +110,7 @@ onMounted(async () => {
           <div>
             <img :src="`https://image.tmdb.org/t/p/w185${rated.poster_path}`" alt="">
             <p class="text-lg whitespace-normal break-words">
-              {{ rated.name }}
+              {{ rated.title }}
             </p>
           </div>
         </u-card>

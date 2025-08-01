@@ -11,7 +11,9 @@ const tvId = route.params.id ? Number(route.params.id) : undefined
 onMounted(async () => {
   if (!tvId)
     return
-
+  detailsStore.details = []
+  detailsStore.cast = []
+  videostore.tvVideos = []
   await videostore.fetchTvVideos(tvId)
   await detailsStore.fetchDetails(tvId, 'tv')
   await detailsStore.fetchCreditsTv(tvId)
@@ -36,19 +38,13 @@ onMounted(async () => {
     </div>
     <div class="w-full p-4 flex flex-col md:flex-row gap-4">
       <div class="w-full md:w-1/4">
-        <h1 class="text-2xl md:text-xl font-bold mb-4">
-          {{ detailsStore.details[0]?.name }}
-        </h1>
         <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="TV Show Backdrop" class="h-96 md:h-[600px]  object-cover mb-4">
       </div>
       <div class="w-full md:w-3/4 md:p-16">
-        <p class="text-xl  mb-2">
-          Overview:
-        </p>
+        <h1 class="text-xl md:text-2xl font-bold mb-4">
+          {{ detailsStore.details[0]?.name }}
+        </h1>
 
-        <p class="text-sm md:text-xl">
-          {{ detailsStore.details[0]?.overview }}
-        </p>
         <div class="flex flex-row gap-4 w-full mt-6">
           <div class="w-1/2 flex flex-col">
             <p class="mt-4 text-lg md:text-xl --ui-txt-color">
@@ -86,7 +82,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
-          <u-card v-for="(cast, index) in detailsStore.cast.slice(0, 10)" :key="index" class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0">
+          <u-card v-for="(cast, index) in detailsStore.cast.slice(0, 20)" :key="index" class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0">
             <img :src="`https://image.tmdb.org/t/p/w200${cast.profile_path}`" alt="Cast Image" class="w-16 h-16 object-cover rounded-full">
             <div>
               <h2 class="text-lg font-semibold whitespace-nowrap">
@@ -117,7 +113,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <h1 class="text-lg md:text-xl font-bold">
+    <h1 class="text-lg md:text-xl font-bold pl-6">
       Top Rated TV Shows
     </h1>
     <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">

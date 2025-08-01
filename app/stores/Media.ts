@@ -29,9 +29,16 @@ export const useMediaStore = defineStore('MediaStore', () => {
   async function fetchMovieList() {
     if (!moviefetch.value) {
       for (let i = 1; i <= 10; i++) {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${i}&sort_by=popularity.desc`, options)
-        const data = await response.json()
-        Movies.value.push(...data.results)
+        if (lang.value === 'tr-TR') {
+          const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=tr-TR&page=${i}&sort_by=popularity.desc`, options)
+          const data = await response.json()
+          Movies.value.push(...data.results)
+        }
+        if (lang.value === 'en-US') {
+          const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${i}&sort_by=popularity.desc`, options)
+          const data = await response.json()
+          Movies.value.push(...data.results)
+        }
       }
     }
     moviefetch.value = true
@@ -39,9 +46,16 @@ export const useMediaStore = defineStore('MediaStore', () => {
   async function fetchTvList() {
     if (!tvfetch.value) {
       for (let i = 1; i <= 10; i++) {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${i}&sort_by=popularity.desc`, options)
-        const data = await response.json()
-        TvShows.value.push(...data.results)
+        if (lang.value === 'tr-TR') {
+          const response = await fetch(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=tr-TR&page=${i}&sort_by=popularity.desc`, options)
+          const data = await response.json()
+          TvShows.value.push(...data.results)
+        }
+        if (lang.value === 'en-US') {
+          const response = await fetch(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${i}&sort_by=popularity.desc`, options)
+          const data = await response.json()
+          TvShows.value.push(...data.results)
+        }
       }
     }
     tvfetch.value = true
@@ -50,9 +64,16 @@ export const useMediaStore = defineStore('MediaStore', () => {
     if (!selectedTvShow.value) {
       throw new Error('No TV show selected')
     }
-    const response = await fetch(`https://api.themoviedb.org/3/tv/259909/videos?language=en-US`, options)
-    const data = await response.json()
-    selectedTvShow.value = data.results
+    if (lang.value === 'tr-TR') {
+      const response = await fetch(`https://api.themoviedb.org/3/tv/${selectedTvShow.value.id}/videos?language=tr-TR`, options)
+      const data = await response.json()
+      selectedTvShow.value = data.results
+    }
+    if (lang.value === 'en-US') {
+      const response = await fetch(`https://api.themoviedb.org/3/tv/259909/videos?language=en-US`, options)
+      const data = await response.json()
+      selectedTvShow.value = data.results
+    }
   }
 
   return {
