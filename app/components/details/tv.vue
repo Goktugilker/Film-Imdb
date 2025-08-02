@@ -14,10 +14,12 @@ onMounted(async () => {
   detailsStore.details = []
   detailsStore.cast = []
   videostore.tvVideos = []
+  watch(lang, async () => {
+    await detailsStore.fetchDetails(tvId, 'tv')
+    await ratedStore.fetchRatedTv()
+}, { immediate: true })
   await videostore.fetchTvVideos(tvId)
-  await detailsStore.fetchDetails(tvId, 'tv')
   await detailsStore.fetchCreditsTv(tvId)
-  await ratedStore.fetchRatedTv()
 })
 </script>
 
@@ -36,9 +38,9 @@ onMounted(async () => {
       <img :src="`https://image.tmdb.org/t/p/original${detailsStore.details[0]?.backdrop_path}`" alt="TV Show Backdrop" class="w-full h-[450px] object-cover object-top">
       <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
     </div>
-    <div class="w-full p-4 flex flex-col md:flex-row gap-4">
+    <div class="w-full p-6 flex flex-col md:flex-row gap-4 pt-8 ">
       <div class="w-full md:w-1/4">
-        <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="TV Show Backdrop" class="h-96 md:h-[600px]  object-cover mb-4">
+        <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="TV Show Backdrop" class="h-96 md:h-[600px]  object-cover mb-4 rounded-4xl">
       </div>
       <div class="w-full md:w-3/4 md:p-16">
         <h1 class="text-xl md:text-2xl font-bold mb-4">
@@ -96,31 +98,31 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="flex flex-row gap-4 justify-around w-full overflow-x-auto">
+    <div class="flex flex-row gap-4 justify-around w-full overflow-x-auto px-10 py-6">
       <div v-if="videostore.tvVideos.length >= 3" class="flex flex-row gap-4 w-full justify-around">
         <div v-for="(video, id) in 3" :key="id" class="w-1/3">
-          <iframe class="w-full aspect-video mb-4" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          <iframe class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
         </div>
       </div>
       <div v-else-if="videostore.tvVideos.length === 2" class="flex flex-row gap-4 mb-4 w-full justify-around">
         <div v-for="(video, id) in videostore.tvVideos.length" :key="id" class="w-1/2">
-          <iframe class="w-full aspect-video mb-4" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          <iframe class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
         </div>
       </div>
       <div v-else-if="videostore.tvVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full justify-around">
         <div v-for="(video, id) in videostore.tvVideos.length" :key="id" class="w-full">
-          <iframe class="w-full aspect-video mb-4" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          <iframe class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
         </div>
       </div>
     </div>
-    <h1 class="text-lg md:text-xl font-bold pl-6">
+    <h1 class="text-lg md:text-xl font-bold pl-6 pt-24">
       Top Rated TV Shows
     </h1>
-    <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
-      <div v-for="(rated, index) in ratedStore.rated" :key="index">
-        <u-card class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0 cursor-pointer" @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: rated.id } })">
-          <div>
-            <img :src="`https://image.tmdb.org/t/p/w185${rated.poster_path}`" alt="">
+    <div class="flex overflow-x-auto gap-4 w-full px-4 py-2 ">
+      <div v-for="(rated, index) in ratedStore.rated" :key="index" >
+        <u-card class="flex flex-row gap-4 mt-4 w-[215px] flex-shrink-0 cursor-pointer h-[330px] rounded-[50px]" @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: rated.id } })">
+          <div class="flex flex-col items-center">
+            <img :src="`https://image.tmdb.org/t/p/w185${rated.poster_path}`" alt="" class="object-cover rounded-4xl">
             <p class="text-lg whitespace-normal break-words">
               {{ rated.name }}
             </p>

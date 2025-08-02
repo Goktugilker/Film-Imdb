@@ -2,8 +2,10 @@
 const mediaStore = useMediaStore()
 const searchStore = useSearchStore()
 onMounted(async () => {
-  await mediaStore.fetchMovieList()
-  await mediaStore.fetchTvList()
+  watch(lang, async () => {
+    await mediaStore.fetchMovieList()
+    await mediaStore.fetchTvList()
+}, { immediate: true })
 })
 watch(() => mediaStore.searchQuery, () => {
   searchStore.search(mediaStore.searchQuery)

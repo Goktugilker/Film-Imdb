@@ -7,5 +7,4 @@ export const lang = computed(() => useCookie('lang').value || 'en-US')
 export function toggleLanguage() {
   const lang = useCookie('lang')
   lang.value = lang.value === 'en-US' ? 'tr-TR' : 'en-US'
-  window.location.reload()
 }
