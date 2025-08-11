@@ -5,7 +5,7 @@ onMounted(async () => {
   watch(lang, async () => {
     await mediaStore.fetchMovieList()
     await mediaStore.fetchTvList()
-}, { immediate: true })
+  }, { immediate: true, deep: true })
 })
 watch(() => mediaStore.searchQuery, () => {
   searchStore.search(mediaStore.searchQuery)
@@ -47,17 +47,44 @@ watch(() => mediaStore.searchQuery, () => {
     </div>
     <div>
       <h1 class="text-2xl font-bold">
-        FİLMLER
+        {{ $t('movies') }}
       </h1>
     </div>
-    <div class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px] ">
-      <UCard v-for="(media, id) in mediaStore.Movies.slice(0, 40)" :key="id" class="min-w-[200px] w-[200px] cursor-pointer hover:scale-105 transition-transform" @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: media.id } })">
+    <!-- Filmler: Skeleton -->
+    <div
+      v-if="mediaStore.Movies.length < 200"
+      class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px]"
+    >
+      <UCard
+        v-for="n in 40"
+        :key="n"
+        class="min-w-[200px] w-[200px] cursor-pointer hover:scale-100 transition-transform rounded-4xl"
+      >
+        <USkeleton class="w-auto h-64 rounded-4xl" />
+      </UCard>
+    </div>
+    <!-- Filmler: İçerik -->
+    <div
+      v-else
+      class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px]"
+    >
+      <UCard
+        v-for="(media, id) in mediaStore.Movies.slice(0, 40)"
+        :key="id"
+        class="min-w-[200px] w-[200px] cursor-pointer hover:scale-105 transition-transform rounded-4xl"
+        @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: media.id } })"
+      >
         <UCardHeader>
-          <img :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`" alt="">
+          <img
+            v-if="media.poster_path"
+            :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
+            alt=""
+            class="w-xl h-auto rounded-4xl"
+          >
         </UCardHeader>
-        <UCardBody class="flex flex-wrap ">
+        <UCardBody class="flex flex-wrap">
           <h1 class="text-2xl font-bold justify-center">
-            {{ media.title }}
+            {{ (media.title ?? '').length > 20 ? `${(media.title ?? '').slice(0, 20)}...` : media.title }}
           </h1>
           <div class="flex justify-center items-center mt-2">
             <MediaRateStar :vote_average="media.vote_average" />
@@ -66,15 +93,41 @@ watch(() => mediaStore.searchQuery, () => {
       </UCard>
     </div>
     <h1 class="text-2xl font-bold">
-      DİZİLER
+      {{ $t('Tv_Shows') }}
     </h1>
-    <div class="flex animate-scroll-x-reverse space-x-6 w-max px-4 py-2">
-      <UCard v-for="(media, id) in mediaStore.TvShows.slice(0, 40).reverse()" :key="id" class="min-w-[200px] w-[200px] h-[400px] cursor-pointer hover:scale-105 transition-transform" @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })">
+    <!-- TvShows: Skeleton -->
+    <div
+      v-if="mediaStore.TvShows.length < 200"
+      class="flex animate-scroll-x-reverse space-x-6 w-max px-4 py-2"
+    >
+      <UCard
+        v-for="n in 40"
+        :key="n"
+        class="min-w-[200px] w-[200px] cursor-pointer hover:scale-100 transition-transform rounded-4xl"
+      >
+        <USkeleton class="w-auto h-64 rounded-4xl" />
+      </UCard>
+    </div>
+    <!-- TvShows: İçerik -->
+    <div
+      v-else
+      class="flex animate-scroll-x-reverse space-x-6 w-max px-4 py-2"
+    >
+      <UCard
+        v-for="(media, id) in mediaStore.TvShows.slice(0, 40).reverse()"
+        :key="id"
+        class="min-w-[200px] w-[200px] h-[400px] cursor-pointer hover:scale-105 transition-transform rounded-4xl"
+        @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"
+      >
         <UCardHeader>
-          <img :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`" alt="">
+          <img
+            :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
+            alt=""
+            class="w-full h-auto rounded-4xl"
+          >
         </UCardHeader>
         <UCardBody class="flex flex-wrap">
-          <h1 class="text-3xl font-bold justify-center">
+          <h1 class="text-2xl font-bold justify-center">
             {{ (media.name ?? '').length > 20 ? `${(media.name ?? '').slice(0, 20)}...` : media.name }}
           </h1><br>
           <MediaRateStar :vote_average="media.vote_average" />

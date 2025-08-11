@@ -8,6 +8,7 @@ const detailsStore = useDetailStore()
 const ratedStore = useRatedStore()
 const mediaType: string | undefined = (route.params.media as MediaType | undefined) ?? undefined
 const movieId = Number(route.params.id)
+const page = ref<'overview' | 'videos'>('overview')
 
 onMounted(async () => {
   detailsStore.details = []
@@ -41,71 +42,114 @@ onMounted(async () => {
       <div class="w-full md:w-1/4">
         <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="Movie Backdrop" class="w-full object-cover mb-4 rounded-4xl">
       </div>
-      <div class="w-full md:w-3/4 md:p-16">
-        <h1 class="text-xl md:text-3xl font-bold mb-4">
-          {{ detailsStore.details[0]?.title }}
-        </h1>
-        <div class="flex flex-row gap-4 w-full mt-6">
-          <div class="w-1/2 flex flex-col">
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Release Date: {{ detailsStore.details[0]?.release_date }}
-            </p>
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Popularity: {{ detailsStore.details[0]?.popularity }}
-            </p>
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Vote Count: {{ detailsStore.details[0]?.vote_count }}
-            </p>
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Vote Average: {{ detailsStore.details[0]?.vote_average }}
-            </p>
-          </div>
-          <div class="w-1/2 flex flex-col">
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Original Language: {{ detailsStore.details[0]?.original_language }}
-            </p>
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Runtime: {{ detailsStore.details[0]?.runtime }} minutes
-            </p>
-            <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-              Genres:
-              <span v-for="(genre, index) in detailsStore.details[0]?.genres" :key="index" class="text-gray-500">
-                {{ genre.name }}<span v-if="index < (detailsStore.details[0]?.genres?.length ?? 0) - 1">, </span>
-              </span>
-            </p>
-            <p class="mt-2 text-sm text-gray-500">
-              Rating: {{ detailsStore.details[0]?.vote_average }}
-            </p>
-          </div>
-        </div>
-        <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
-          <u-card v-for="(cast, index) in detailsStore.cast.slice(0, 20)" :key="index" class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0">
-            <img :src="`https://image.tmdb.org/t/p/w200${cast.profile_path}`" alt="Cast Image" class="w-20 h-20 object-cover rounded-full">
-            <div>
-              <h2 class="text-lg font-semibold whitespace-nowrap">
-                {{ cast.name }}
-              </h2>
-              <p class="text-sm text-gray-500 whitespace-nowrap">
-                {{ cast.character }}
-              </p>
+
+      <div v-if="page === 'overview'" class="w-full md:w-3/4 ">
+        <div class="flex flex-col">
+          <div class="flex flex-col md:flex-row gap-4 mb-5">
+            <div class="w-full flex flex-row gap-4">
+              <u-button
+                label="Overview"
+                variant="outline"
+                :class="{ 'bg-primary text-white': page === 'overview' }"
+                class="w-full"
+                @click="page = 'overview'"
+              />
+
+              <u-button
+                label="Videos"
+                variant="outline"
+                class="w-full"
+                @click="page = 'videos'"
+              />
             </div>
-          </u-card>
+          </div>
+          <div>
+            <h1 class="text-xl md:text-3xl font-bold mb-4">
+              {{ detailsStore.details[0]?.title }}
+            </h1>
+            <div class="flex flex-row gap-4 w-full mt-6">
+              <div class="w-1/2 flex flex-col">
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Release-Date') }}: {{ detailsStore.details[0]?.release_date }}
+                </p>
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Popularity') }}: {{ detailsStore.details[0]?.popularity }}
+                </p>
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Vote_Count') }}: {{ detailsStore.details[0]?.vote_count }}
+                </p>
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Vote_Average') }}: {{ detailsStore.details[0]?.vote_average }}
+                </p>
+              </div>
+              <div class="w-1/2 flex flex-col">
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Original_Language') }}: {{ detailsStore.details[0]?.original_language }}
+                </p>
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Runtime') }}: {{ detailsStore.details[0]?.runtime }} minutes
+                </p>
+                <p class="mt-2 text-lg md:text-xl --ui-txt-color">
+                  {{ $t('Genres') }}:
+                  <span v-for="(genre, index) in detailsStore.details[0]?.genres" :key="index" class="text-gray-500">
+                    {{ genre.name }}<span v-if="index < (detailsStore.details[0]?.genres?.length ?? 0) - 1">, </span>
+                  </span>
+                </p>
+                <p class="mt-2 text-sm text-gray-500">
+                  {{ $t('Rating') }}: {{ detailsStore.details[0]?.vote_average }}
+                </p>
+              </div>
+            </div>
+            <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
+              <u-card v-for="(cast, index) in detailsStore.cast.slice(0, 20)" :key="index" class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0">
+                <img :src="`https://image.tmdb.org/t/p/w200${cast.profile_path}`" alt="Cast Image" class="w-20 h-20 object-cover rounded-full">
+                <div>
+                  <h2 class="text-lg font-semibold whitespace-nowrap">
+                    {{ cast.name }}
+                  </h2>
+                  <p class="text-sm text-gray-500 whitespace-nowrap">
+                    {{ cast.character }}
+                  </p>
+                </div>
+              </u-card>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 py-6">
-      <div v-if="videostore.movieVideos.length >= 3" class="flex flex-row gap-4 w-full ">
-        <iframe v-for="(video, id) in 3" :key="id" class="w-1/3 aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
-      </div>
-      <div v-else-if="videostore.movieVideos.length === 2" class="flex flex-row gap-4 mb-4 w-full">
-        <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class=" aspect-video mb-4 w-1/2  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
-      </div>
-      <div v-else-if="videostore.movieVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
-        <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-full aspect-video mb-4  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+      <div v-if="page === 'videos'" class="w-full flex flex-col">
+        <div class="flex flex-col md:flex-row gap-4 mb-5">
+          <div class="w-full flex flex-row gap-4 mt">
+            <u-button
+              label="Overview"
+              variant="outline"
+              class="w-full"
+              @click="page = 'overview'"
+            />
+
+            <u-button
+              label="Videos"
+              variant="outline"
+              class="w-full"
+              :class="{ 'bg-primary text-white': page === 'videos' }"
+              @click="page = 'videos'"
+            />
+          </div>
+        </div>
+        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 py-16">
+          <div v-if="videostore.movieVideos.length >= 3" class="flex flex-row gap-4 w-full ">
+            <iframe v-for="(video, id) in 10" :key="id" class="w-3/6 aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          </div>
+          <div v-else-if="videostore.movieVideos.length === 2" class="flex flex-row gap-4 mb-4 w-full">
+            <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class=" aspect-video mb-4 w-1/2  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          </div>
+          <div v-else-if="videostore.movieVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
+            <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-full aspect-video mb-4  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          </div>
+        </div>
       </div>
     </div>
     <h1 class="text-lg md:text-xl font-bold pl-6">
-      Top Rated Movies
+      {{$t('Top_Rated')}} {{$t('movies')}}
     </h1>
     <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
       <div v-for="(rated, index) in ratedStore.rated" :key="index">

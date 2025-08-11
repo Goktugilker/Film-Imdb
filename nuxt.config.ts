@@ -1,4 +1,4 @@
-import tailwindcss from '@tailwindcss/vite'
+import process from 'node:process'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -17,10 +17,12 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxtjs/i18n',
   ],
-  vite: {
-    plugins: [
-      tailwindcss(),
+  i18n: {
+    strategy: 'no_prefix',
+    defaultLocale: 'tr',
+    locales: [
+      { code: 'tr', name: 'Türkçe', iso: 'tr-TR', file: 'tr.json' },
+      { code: 'en', name: 'English', iso: 'en-US', file: 'en.json' },
     ],
   },
-
 })

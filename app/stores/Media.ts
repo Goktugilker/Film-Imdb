@@ -29,7 +29,7 @@ export const useMediaStore = defineStore('MediaStore', () => {
           Movies.value.push(...data.results)
         }
         if (lang.value === 'en-US') {
-          const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${i}&sort_by=popularity.desc`, options)
+          const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false &include_video=false&language=en-US&page=${i}&sort_by=popularity.desc`, options)
           const data = await response.json()
           Movies.value.push(...data.results)
         }

@@ -1,4 +1,5 @@
-<script setup>
+<script setup lang="ts">
+const { setLocale, locale } = useI18n()
 </script>
 
 <template>
@@ -37,10 +38,11 @@
     <div>
       <UButton
         size="xl"
-        :icon="lang === 'en-US' ? 'flag:us-1x1' : 'flag:tr-1x1'"
         variant="ghost"
-        @click="toggleLanguage"
+        :icon="locale === 'en' ? 'flag:us-1x1' : 'flag:tr-1x1'"
+        @click="setLocale(locale === 'en' ? 'tr' : 'en'),toggleLanguage()"
       />
+
       <UButton
         size="xl"
         :icon="isDark ? 'mdi:weather-night' : 'mdi:weather-sunny'"

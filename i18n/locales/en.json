@@ -1,0 +1,15 @@
+{
+  "movies": "Movies",
+  "Tv_Shows": "Tv Shows",
+  "Release-Date": "Release Date",
+  "Rating": "Rating",
+  "Popularity": "Popularity",
+  "Vote_Count": "Vote Count",
+  "Vote_Average": "Vote Average",
+  "Original_Language": "Original Language",
+  "Overview": "Overview",
+  "Genres": "Genres",
+  "Runtime": "Runtime",
+  "Top_Rated": "Top Rated",
+  "First_Aired": "First Air date"
+}

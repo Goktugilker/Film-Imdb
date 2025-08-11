@@ -1,0 +1,15 @@
+{
+  "movies": "Filmler",
+  "Tv_Shows": "Diziler",
+  "Release-Date": "Çıkış Tarihi",
+  "Rating": "Puan",
+  "Popularity": "Popülerlik",
+  "Vote_Count": "Oy Sayısı",
+  "Vote_Average": "Oy Ortalaması",
+  "Original_Language": "Orijinal Dil",
+  "Overview": "Açıklama",
+  "Genres": "Türler",
+  "Runtime": "Süre",
+  "Top_Rated": "En İyi Puanlanan",
+  "First_Aired": "İlk Yayın Tarihi"
+}

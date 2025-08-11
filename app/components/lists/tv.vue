@@ -18,9 +18,9 @@ watch(lang, async () => {
       :key="id"
       class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >
-      <UCard class="w-full" @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: tv.id } })">
-        <UCardHeader>
-          <img :src="`https://image.tmdb.org/t/p/w500${tv.poster_path}`" alt="">
+      <UCard class="w-full rounded-4xl" @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: tv.id } })">
+        <UCardHeader class="flex justify-center items-center rounded-4xl">
+          <img :src="`https://image.tmdb.org/t/p/w500${tv.poster_path}`" alt="" class="w-full h-auto rounded-4xl">
         </UCardHeader>
         <UCardBody class="flex justify-center items-center">
           <h1 class="text-2xl font-bold text-center">
