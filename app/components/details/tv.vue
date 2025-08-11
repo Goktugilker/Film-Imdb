@@ -69,7 +69,7 @@ onMounted(async () => {
             <div class="flex flex-row gap-4 w-full mt-6">
               <div class="w-1/2 flex flex-col">
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('First Air Date')}}: {{ detailsStore.details[0]?.first_air_date }}
+                  {{$t('First_Aired')}}: {{ detailsStore.details[0]?.first_air_date }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
                   {{$t('Popularity')}}: {{ detailsStore.details[0]?.popularity }}
