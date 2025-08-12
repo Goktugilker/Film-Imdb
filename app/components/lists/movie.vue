@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const mediaStore = useMediaStore()
+const { locale } = useI18n()
 onMounted(async () => {
   await mediaStore.fetchMovieList()
 })
-watch(lang, async () => {
+watch(locale, async () => {
   await mediaStore.fetchMovieList()
 })
 onMounted(() => {

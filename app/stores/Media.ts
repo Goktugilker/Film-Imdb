@@ -1,6 +1,7 @@
 import type { Media } from '~/type'
 
 export const useMediaStore = defineStore('MediaStore', () => {
+  const {locale} = useI18n()
   const tvFetch = ref(false)
   const movieFetch = ref(false)
   const apiKey = ref(useRuntimeConfig().public.apiKey)
@@ -25,12 +26,12 @@ export const useMediaStore = defineStore('MediaStore', () => {
         if (movieFetch.value) {
           return
         }
-       else if (lang.value === 'tr-TR') {
+       else if (locale.value === 'tr') {
           const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=tr-TR&page=${page.value}&sort_by=popularity.desc`, options)
           const data = await response.json()
           Movies.value.push(...data.results)
         }
-       else if (lang.value === 'en-US') {
+       else if (locale.value === 'en') {
           const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false &include_video=false&language=en-US&page=${page.value}&sort_by=popularity.desc`, options)
           const data = await response.json()
           Movies.value.push(...data.results)
@@ -41,12 +42,12 @@ export const useMediaStore = defineStore('MediaStore', () => {
         if (tvFetch.value) {
           return
         }
-        if (lang.value === 'tr-TR') {
+        if (locale.value === 'tr') {
           const response = await fetch(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=tr-TR&page=${page.value}&sort_by=popularity.desc`, options)
           const data = await response.json()
           TvShows.value.push(...data.results)
         }
-        if (lang.value === 'en-US') {
+        if (locale.value === 'en') {
           const response = await fetch(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${page.value}&sort_by=popularity.desc`, options)
           const data = await response.json()
           TvShows.value.push(...data.results)
@@ -57,12 +58,12 @@ export const useMediaStore = defineStore('MediaStore', () => {
     if (!selectedTvShow.value) {
       throw new Error('No TV show selected')
     }
-    if (lang.value === 'tr-TR') {
+    if (locale.value === 'tr') {
       const response = await fetch(`https://api.themoviedb.org/3/tv/${selectedTvShow.value.id}/videos?language=tr-TR`, options)
       const data = await response.json()
       selectedTvShow.value = data.results
     }
-    if (lang.value === 'en-US') {
+    if (locale.value === 'en') {
       const response = await fetch(`https://api.themoviedb.org/3/tv/259909/videos?language=en-US`, options)
       const data = await response.json()
       selectedTvShow.value = data.results

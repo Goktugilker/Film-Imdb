@@ -1,6 +1,7 @@
 import type { Media } from '~/type'
 
 export const useSearchStore = defineStore('SearchStore', () => {
+  const { locale } = useI18n()
   const resultMovies = ref<Media[]>([])
   const resultTv = ref<Media[]>([])
   const results = ref<Media[]>([])
@@ -21,12 +22,12 @@ export const useSearchStore = defineStore('SearchStore', () => {
     if (!query) {
       return []
     }
-    if (lang.value === 'tr-TR') {
+    if (locale.value === 'tr') {
       const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=tr-TR&page=1`, options)
       const data = await response.json()
       resultMovies.value = data.results
     }
-    if (lang.value === 'en-US') {
+    if (locale.value === 'en') {
       const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`, options)
       const data = await response.json()
       resultMovies.value = data.results
@@ -36,12 +37,12 @@ export const useSearchStore = defineStore('SearchStore', () => {
     if (!query) {
       return []
     }
-    if (lang.value === 'tr-TR') {
+    if (locale.value === 'tr') {
       const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=tr-TR&page=1`, options)
       const data = await response.json()
       resultTv.value = data.results
     }
-    if (lang.value === 'en-US') {
+    if (locale.value === 'en') {
       const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=1`, options)
       const data = await response.json()
       resultTv.value = data.results

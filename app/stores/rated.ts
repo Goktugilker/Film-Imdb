@@ -1,6 +1,7 @@
 import type { Media } from '~/type'
 
 export const useRatedStore = defineStore('RatedStore', () => {
+  const { locale } = useI18n()
   const rated = ref<Media[]>([])
   const accessToken = ref(useRuntimeConfig().public.accessToken)
   const options = {
@@ -11,24 +12,24 @@ export const useRatedStore = defineStore('RatedStore', () => {
     },
   }
   async function fetchRatedMovies() {
-    if (lang.value === 'tr-TR') {
+    if (locale.value === 'tr') {
       const response = await fetch(`https://api.themoviedb.org/3/movie/top_rated?language=tr-TR&page=1`, options)
       const data = await response.json()
       rated.value = data.results
     }
-    if (lang.value === 'en-US') {
+    if (locale.value === 'en') {
       const response = await fetch(`https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1`, options)
       const data = await response.json()
       rated.value = data.results
     }
   }
   async function fetchRatedTv() {
-    if (lang.value === 'tr-TR') {
+    if (locale.value === 'tr') {
       const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?language=tr-TR&page=1`, options)
       const data = await response.json()
       rated.value = data.results
     }
-    if (lang.value === 'en-US') {
+    if (locale.value === 'en') {
       const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1`, options)
       const data = await response.json()
       rated.value = data.results

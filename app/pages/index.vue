@@ -1,15 +1,19 @@
 <script setup lang="ts">
+const { locale } = useI18n()
 const mediaStore = useMediaStore()
 const searchStore = useSearchStore()
 onMounted(async () => {
   await mediaStore.fetchMovieList()
   await mediaStore.fetchTvList()
 })
-
 watch(() => mediaStore.searchQuery, () => {
   searchStore.search(mediaStore.searchQuery)
 })
-watch(lang, async () => {
+watch(locale, async () => {
+  mediaStore.page = 1
+  mediaStore.Movies = []
+  mediaStore.tvFetch = false
+  mediaStore.movieFetch = false
   await mediaStore.fetchMovieList()
   await mediaStore.fetchTvList()
 }, { immediate: false, deep: true })
