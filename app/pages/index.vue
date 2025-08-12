@@ -2,14 +2,17 @@
 const mediaStore = useMediaStore()
 const searchStore = useSearchStore()
 onMounted(async () => {
-  watch(lang, async () => {
-    await mediaStore.fetchMovieList()
-    await mediaStore.fetchTvList()
-  }, { immediate: true, deep: true })
+  await mediaStore.fetchMovieList()
+  await mediaStore.fetchTvList()
 })
+
 watch(() => mediaStore.searchQuery, () => {
   searchStore.search(mediaStore.searchQuery)
 })
+watch(lang, async () => {
+  await mediaStore.fetchMovieList()
+  await mediaStore.fetchTvList()
+}, { immediate: false, deep: true })
 </script>
 
 <template>
@@ -52,7 +55,7 @@ watch(() => mediaStore.searchQuery, () => {
     </div>
     <!-- Filmler: Skeleton -->
     <div
-      v-if="mediaStore.Movies.length < 200"
+      v-if="mediaStore.Movies.length < 20"
       class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px]"
     >
       <UCard
@@ -69,7 +72,7 @@ watch(() => mediaStore.searchQuery, () => {
       class="flex animate-scroll-x space-x-6 w-max px-4 py-2 h-[400px]"
     >
       <UCard
-        v-for="(media, id) in mediaStore.Movies.slice(0, 40)"
+        v-for="(media, id) in mediaStore.Movies.slice(0, 20)"
         :key="id"
         class="min-w-[200px] w-[200px] cursor-pointer hover:scale-105 transition-transform rounded-4xl"
         @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: media.id } })"
@@ -97,7 +100,7 @@ watch(() => mediaStore.searchQuery, () => {
     </h1>
     <!-- TvShows: Skeleton -->
     <div
-      v-if="mediaStore.TvShows.length < 200"
+      v-if="mediaStore.TvShows.length < 20"
       class="flex animate-scroll-x-reverse space-x-6 w-max px-4 py-2"
     >
       <UCard
@@ -114,7 +117,7 @@ watch(() => mediaStore.searchQuery, () => {
       class="flex animate-scroll-x-reverse space-x-6 w-max px-4 py-2"
     >
       <UCard
-        v-for="(media, id) in mediaStore.TvShows.slice(0, 40).reverse()"
+        v-for="(media, id) in mediaStore.TvShows.slice(0, 20).reverse()"
         :key="id"
         class="min-w-[200px] w-[200px] h-[400px] cursor-pointer hover:scale-105 transition-transform rounded-4xl"
         @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"

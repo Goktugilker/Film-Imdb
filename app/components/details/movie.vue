@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MediaType } from '~/type'
 
+const { locale } = useI18n()
 const route = useRoute()
 const videostore = useVideoStore()
 
@@ -14,10 +15,10 @@ onMounted(async () => {
   detailsStore.details = []
   detailsStore.cast = []
   videostore.movieVideos = []
-  watch(lang, async () => {
+  watch(locale, async () => {
     await detailsStore.fetchDetails(movieId, 'movie')
     await ratedStore.fetchRatedMovies()
-  }, { immediate: true })
+  }, { immediate: true, deep: true })
   await detailsStore.fetchCreditsMovie(movieId)
   await videostore.fetchMovieVideos(movieId)
 })
@@ -35,34 +36,37 @@ onMounted(async () => {
         </div>
         <h4>{{ detailsStore.details[0]?.overview }}</h4>
       </div>
-      <img :src="`https://image.tmdb.org/t/p/original${detailsStore.details[0]?.backdrop_path}`" alt="TV Show Backdrop" class="w-full h-[450px] object-cover object-top">
+      <img :src="`https://image.tmdb.org/t/p/original${detailsStore.details[0]?.backdrop_path}`" alt="Movie Backdrop" class="w-full h-[450px] object-cover object-top">
       <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
     </div>
-    <div class="w-full p-4 flex flex-col md:flex-row gap-4 pt-8 ">
+    <div class="flex flex-col md:flex-row gap-4 mt-5 px-14 py-4">
+      <div class="w-full flex flex-row gap-4">
+        <u-button
+          :label="$t('Overview')"
+          variant="outline"
+          size="xl"
+          :class="{ 'bg-primary text-white': page === 'overview' }"
+          class="w-full"
+          @click="page = 'overview'"
+        />
+
+        <u-button
+          :label="$t('Videos')"
+          size="xl"
+          variant="outline"
+          class="w-full"
+          :class="{ 'bg-primary text-white': page === 'videos' }"
+          @click="page = 'videos'"
+        />
+      </div>
+    </div>
+    <div class="w-full p-4 flex flex-col md:flex-row gap-4 pt-8">
       <div class="w-full md:w-1/4">
-        <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="Movie Backdrop" class="w-full object-cover mb-4 rounded-4xl">
+        <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="Movie Poster" class="w-full object-cover rounded-4xl">
       </div>
 
       <div v-if="page === 'overview'" class="w-full md:w-3/4 ">
         <div class="flex flex-col">
-          <div class="flex flex-col md:flex-row gap-4 mb-5">
-            <div class="w-full flex flex-row gap-4">
-              <u-button
-                label="Overview"
-                variant="outline"
-                :class="{ 'bg-primary text-white': page === 'overview' }"
-                class="w-full"
-                @click="page = 'overview'"
-              />
-
-              <u-button
-                label="Videos"
-                variant="outline"
-                class="w-full"
-                @click="page = 'videos'"
-              />
-            </div>
-          </div>
           <div>
             <h1 class="text-xl md:text-3xl font-bold mb-4">
               {{ detailsStore.details[0]?.title }}
@@ -116,31 +120,13 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div v-if="page === 'videos'" class="w-full flex flex-col">
-        <div class="flex flex-col md:flex-row gap-4 mb-5">
-          <div class="w-full flex flex-row gap-4 mt">
-            <u-button
-              label="Overview"
-              variant="outline"
-              class="w-full"
-              @click="page = 'overview'"
-            />
-
-            <u-button
-              label="Videos"
-              variant="outline"
-              class="w-full"
-              :class="{ 'bg-primary text-white': page === 'videos' }"
-              @click="page = 'videos'"
-            />
-          </div>
-        </div>
-        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 py-16">
+      <div v-if="page === 'videos'" class="w-full md:w-11/16 flex flex-col py-5">
+        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
           <div v-if="videostore.movieVideos.length >= 3" class="flex flex-row gap-4 w-full ">
-            <iframe v-for="(video, id) in 10" :key="id" class="w-3/6 aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+            <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
           <div v-else-if="videostore.movieVideos.length === 2" class="flex flex-row gap-4 mb-4 w-full">
-            <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class=" aspect-video mb-4 w-1/2  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+            <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class=" aspect-video mb-4 w-full  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
           <div v-else-if="videostore.movieVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
             <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-full aspect-video mb-4  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
@@ -148,8 +134,8 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <h1 class="text-lg md:text-xl font-bold pl-6">
-      {{$t('Top_Rated')}} {{$t('movies')}}
+    <h1 class="text-lg md:text-xl font-bold pl-6 pt-8">
+      {{ $t('Top_Rated') }} {{ $t('movies') }}
     </h1>
     <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
       <div v-for="(rated, index) in ratedStore.rated" :key="index">

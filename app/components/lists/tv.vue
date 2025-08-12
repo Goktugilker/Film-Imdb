@@ -6,6 +6,22 @@ onMounted(async () => {
 watch(lang, async () => {
   await mediaStore.fetchTvList()
 },)
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  mediaStore.page = 1
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+function handleScroll() {
+  const scrollPosition = window.scrollY + window.innerHeight 
+  const pageHeight = document.body.offsetHeight
+  if (scrollPosition >= pageHeight) {
+    mediaStore.tvFetch = false
+    mediaStore.page += 1
+    mediaStore.fetchTvList()
+  }
+}
 </script>
 
 <template>
@@ -14,7 +30,7 @@ watch(lang, async () => {
       Diziler
     </h1>
     <div
-      v-for="(tv, id) in mediaStore.TvShows"
+      v-for="(tv, id) in mediaStore.TvShows.slice(0, mediaStore.TvShows.length - (mediaStore.TvShows.length % 3))"
       :key="id"
       class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >

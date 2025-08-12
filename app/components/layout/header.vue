@@ -40,7 +40,7 @@ const { setLocale, locale } = useI18n()
         size="xl"
         variant="ghost"
         :icon="locale === 'en' ? 'flag:us-1x1' : 'flag:tr-1x1'"
-        @click="setLocale(locale === 'en' ? 'tr' : 'en'),toggleLanguage()"
+        @click="toggleLanguage(),setLocale(locale === 'en' ? 'tr' : 'en')"
       />
 
       <UButton

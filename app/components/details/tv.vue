@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MediaType } from '~/type'
 
+const { locale } = useI18n()
 const route = useRoute()
 const ratedStore = useRatedStore()
 const videostore = useVideoStore()
@@ -13,12 +14,12 @@ onMounted(async () => {
   detailsStore.details = []
   detailsStore.cast = []
   videostore.tvVideos = []
-  watch(lang, async () => {
+  watch(locale, async () => {
     await detailsStore.fetchDetails(tvId, 'tv')
-    await ratedStore.fetchRatedTv()
-  }, { immediate: true })
-  await detailsStore.fetchCreditsTv(tvId)
+  }, { immediate: true})
+  await ratedStore.fetchRatedTv()
   await videostore.fetchTvVideos(tvId)
+  await detailsStore.fetchCreditsTv(tvId)
 })
 </script>
 
@@ -28,7 +29,7 @@ onMounted(async () => {
       <div class="bottom-0 left-0 z-1 absolute p-4 text-white flex flex-col gap-2">
         <div class="flex flex-row gap-2">
           <h1 class="text-2xl">
-            {{ detailsStore.details[0]?.name }}
+            {{ detailsStore.details[0]?.name }} 
           </h1>
           <media-rate-star :vote_average="detailsStore.details[0]?.vote_average ?? 0" />
         </div>
@@ -37,31 +38,37 @@ onMounted(async () => {
       <img :src="`https://image.tmdb.org/t/p/original${detailsStore.details[0]?.backdrop_path}`" alt="TV Show Backdrop" class="w-full h-[450px] object-cover object-top">
       <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
     </div>
-    <div class="w-full p-4 flex flex-col md:flex-row gap-4 pt-8 ">
-      <div class="w-full md:w-1/4">
-        <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="TV Show Poster" class="w-full object-cover mb-4 rounded-4xl">
-      </div>
-
-      <div v-if="page === 'overview'" class="w-full md:w-3/4 ">
-        <div class="flex flex-col">
-          <div class="flex flex-col md:flex-row gap-4 mb-5">
-            <div class="w-full flex flex-row gap-4">
-              <u-button
-                label="Overview"
+    <div class="flex flex-col md:flex-row gap-4 mt-5 px-14 py-4">
+            
+      <div class="w-full flex flex-row gap-4">
+        <u-button
+                :label="$t('Overview')"
                 variant="outline"
+                size="xl"
                 :class="{ 'bg-primary text-white': page === 'overview' }"
                 class="w-full"
                 @click="page = 'overview'"
               />
 
               <u-button
-                label="Videos"
+                :label="$t('Videos')"
+                size="xl"
                 variant="outline"
                 class="w-full"
+                :class="{ 'bg-primary text-white': page === 'videos' }"
                 @click="page = 'videos'"
-              />
+                />
+              </div>
             </div>
-          </div>
+    <div class="w-full p-4 flex flex-col md:flex-row gap-4 pt-8">
+      
+      <div class="w-full md:w-1/4">
+        <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="TV Show Poster" class="w-full object-cover rounded-4xl">
+      </div>
+
+      <div v-if="page === 'overview'" class="w-full md:w-3/4 ">
+        <div class="flex flex-col">
+          
           <div>
             <h1 class="text-xl md:text-3xl font-bold mb-4">
               {{ detailsStore.details[0]?.name }}
@@ -118,31 +125,13 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div v-if="page === 'videos'" class="w-full flex flex-col">
-        <div class="flex flex-col md:flex-row gap-4 mb-5">
-          <div class="w-full flex flex-row gap-4 mt">
-            <u-button
-              label="Overview"
-              variant="outline"
-              class="w-full"
-              @click="page = 'overview'"
-            />
-
-            <u-button
-              label="Videos"
-              variant="outline"
-              class="w-full"
-              :class="{ 'bg-primary text-white': page === 'videos' }"
-              @click="page = 'videos'"
-            />
-          </div>
-        </div>
-        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 py-16">
+      <div v-if="page === 'videos'" class="w-full md:w-11/16 flex flex-col py-5">
+        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
           <div v-if="videostore.tvVideos.length >= 3" class="flex flex-row gap-4 w-full ">
-            <iframe v-for="(video, id) in 10" :key="id" class="w-3/6 aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
+            <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
           <div v-else-if="videostore.tvVideos.length === 2" class="flex flex-row gap-4 mb-4 w-full">
-            <iframe v-for="(video, id) in videostore.tvVideos.length" :key="id" class=" aspect-video mb-4 w-1/2  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
+            <iframe v-for="(video, id) in videostore.tvVideos.length" :key="id" class=" aspect-video mb-4 w-full  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
           <div v-else-if="videostore.tvVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
             <iframe v-for="(video, id) in videostore.tvVideos.length" :key="id" class="w-full aspect-video mb-4  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />

@@ -1,22 +1,38 @@
 <script setup lang="ts">
 const mediaStore = useMediaStore()
 onMounted(async () => {
-        await mediaStore.fetchMovieList()
-    })
-    watch(lang, async () => {
-        await mediaStore.fetchMovieList()
-    },)
+  await mediaStore.fetchMovieList()
+})
+watch(lang, async () => {
+  await mediaStore.fetchMovieList()
+})
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  mediaStore.page = 1
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+function handleScroll() {
+  const scrollPosition = window.scrollY + window.innerHeight
+  const pageHeight = document.body.offsetHeight
+  if (scrollPosition >= pageHeight) {
+    mediaStore.movieFetch = false
+    mediaStore.page += 1
+    mediaStore.fetchMovieList()
+  }
+}
 </script>
 
 <template>
-    <div
+  <div
     class="flex flex-wrap h-full w-full justify-center"
   >
     <h1 class="text-3xl font-bold w-full text-center mb-4">
       Filmler
     </h1>
     <div
-      v-for="(movie, id) in mediaStore.Movies"
+      v-for="(movie, id) in mediaStore.Movies.slice(0, mediaStore.Movies.length - (mediaStore.Movies.length % 3))"
       :key="id"
       class="flex flex-wrap gap-4 justify-center items-center p-4 w-[400px]"
     >
