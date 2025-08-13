@@ -13,6 +13,8 @@ onMounted(() => {
 })
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
+  mediaStore.Movies = []
+  mediaStore.movieFetch = false
 })
 function handleScroll() {
   const scrollPosition = window.scrollY + window.innerHeight
@@ -30,7 +32,7 @@ function handleScroll() {
     class="flex flex-wrap h-full w-full justify-center"
   >
     <h1 class="text-3xl font-bold w-full text-center mb-4">
-      Filmler
+      {{ $t('movies') }}
     </h1>
     <div
       v-for="(movie, id) in mediaStore.Movies.slice(0, mediaStore.Movies.length - (mediaStore.Movies.length % 3))"

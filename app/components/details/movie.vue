@@ -17,6 +17,7 @@ onMounted(async () => {
   videostore.movieVideos = []
   watch(locale, async () => {
     await detailsStore.fetchDetails(movieId, 'movie')
+    await videostore.fetchMovieVideos(movieId)
     await ratedStore.fetchRatedMovies()
   }, { immediate: true, deep: true })
   await detailsStore.fetchCreditsMovie(movieId)
@@ -121,7 +122,10 @@ onMounted(async () => {
         </div>
       </div>
       <div v-if="page === 'videos'" class="w-full md:w-11/16 flex flex-col py-5">
-        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
+        <div v-if="videostore.movieVideos.length === 0" class="flex flex-row items-center justify-center w-full h-full">
+          <p class="text-gray-500 text-6xl text-center">{{ $t('No_Videos_Available') }}</p>
+        </div>
+        <div v-else class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
           <div v-if="videostore.movieVideos.length >= 3" class="flex flex-row gap-4 w-full ">
             <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>

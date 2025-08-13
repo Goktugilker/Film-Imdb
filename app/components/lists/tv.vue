@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const mediaStore = useMediaStore()
 const { locale } = useI18n()
+
 onMounted(async () => {
   await mediaStore.fetchTvList()
 })
@@ -13,6 +14,8 @@ onMounted(() => {
 })
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
+  mediaStore.TvShows=[]
+  mediaStore.tvFetch = false
 })
 function handleScroll() {
   const scrollPosition = window.scrollY + window.innerHeight 
@@ -26,9 +29,10 @@ function handleScroll() {
 </script>
 
 <template>
+  
   <div class="flex flex-wrap h-full w-full justify-center">
     <h1 class="text-3xl font-bold w-full text-center mb-4">
-      Diziler
+      {{ $t('Tv_Shows') }}
     </h1>
     <div
       v-for="(tv, id) in mediaStore.TvShows.slice(0, mediaStore.TvShows.length - (mediaStore.TvShows.length % 3))"

@@ -11,7 +11,7 @@
 </template>
 
 <style>
-.page{
+h1,h2,h4,p{
   font-family: Poppins, sans-serif;
 }
 .header,.footer {

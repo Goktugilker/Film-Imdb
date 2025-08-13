@@ -1,26 +1,39 @@
 <script setup lang="ts">
+import type { TabsItem } from '@nuxt/ui'
 import type { MediaType } from '~/type'
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const route = useRoute()
 const ratedStore = useRatedStore()
 const videostore = useVideoStore()
 const detailsStore = useDetailStore()
 const mediaType: string | undefined = (route.params.media as MediaType | undefined) ?? undefined
 const tvId = Number(route.params.id)
-const page = ref<'overview' | 'videos'>('overview')
-
+const page = ref('0')
 onMounted(async () => {
   detailsStore.details = []
   detailsStore.cast = []
   videostore.tvVideos = []
   watch(locale, async () => {
     await detailsStore.fetchDetails(tvId, 'tv')
-  }, { immediate: true})
+    await videostore.fetchTvVideos(tvId)
+    await ratedStore.fetchRatedTv()
+  }, { immediate: true })
   await ratedStore.fetchRatedTv()
   await videostore.fetchTvVideos(tvId)
   await detailsStore.fetchCreditsTv(tvId)
 })
+
+const items = computed<TabsItem[]>(() => [
+  {
+    icon: 'lucide:film',
+    label: t('Overview'),
+  },
+  {
+    icon: 'lucide:video',
+    label: t('Videos'),
+  },
+])
 </script>
 
 <template>
@@ -29,7 +42,7 @@ onMounted(async () => {
       <div class="bottom-0 left-0 z-1 absolute p-4 text-white flex flex-col gap-2">
         <div class="flex flex-row gap-2">
           <h1 class="text-2xl">
-            {{ detailsStore.details[0]?.name }} 
+            {{ detailsStore.details[0]?.name }}
           </h1>
           <media-rate-star :vote_average="detailsStore.details[0]?.vote_average ?? 0" />
         </div>
@@ -39,36 +52,15 @@ onMounted(async () => {
       <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
     </div>
     <div class="flex flex-col md:flex-row gap-4 mt-5 px-14 py-4">
-            
-      <div class="w-full flex flex-row gap-4">
-        <u-button
-                :label="$t('Overview')"
-                variant="outline"
-                size="xl"
-                :class="{ 'bg-primary text-white': page === 'overview' }"
-                class="w-full"
-                @click="page = 'overview'"
-              />
-
-              <u-button
-                :label="$t('Videos')"
-                size="xl"
-                variant="outline"
-                class="w-full"
-                :class="{ 'bg-primary text-white': page === 'videos' }"
-                @click="page = 'videos'"
-                />
-              </div>
-            </div>
+      <u-tabs v-model="page" :items="items" class="w-full" />
+    </div>
     <div class="w-full p-4 flex flex-col md:flex-row gap-4 pt-8">
-      
       <div class="w-full md:w-1/4">
         <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="TV Show Poster" class="w-full object-cover rounded-4xl">
       </div>
 
-      <div v-if="page === 'overview'" class="w-full md:w-3/4 ">
+      <div v-if="page === '0'" class="w-full md:w-3/4 ">
         <div class="flex flex-col">
-          
           <div>
             <h1 class="text-xl md:text-3xl font-bold mb-4">
               {{ detailsStore.details[0]?.name }}
@@ -76,36 +68,36 @@ onMounted(async () => {
             <div class="flex flex-row gap-4 w-full mt-6">
               <div class="w-1/2 flex flex-col">
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('First_Aired')}}: {{ detailsStore.details[0]?.first_air_date }}
+                  {{ $t('First_Aired') }}: {{ detailsStore.details[0]?.first_air_date }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Popularity')}}: {{ detailsStore.details[0]?.popularity }}
+                  {{ $t('Popularity') }}: {{ detailsStore.details[0]?.popularity }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Vote_Count')}}: {{ detailsStore.details[0]?.vote_count }}
+                  {{ $t('Vote_Count') }}: {{ detailsStore.details[0]?.vote_count }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Vote_Average')}}: {{ detailsStore.details[0]?.vote_average }}
+                  {{ $t('Vote_Average') }}: {{ detailsStore.details[0]?.vote_average }}
                 </p>
               </div>
               <div class="w-1/2 flex flex-col">
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Original_Language')}}: {{ detailsStore.details[0]?.original_language }}
+                  {{ $t('Original_Language') }}: {{ detailsStore.details[0]?.original_language }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Seasons')}}: {{ detailsStore.details[0]?.number_of_seasons }}
+                  {{ $t('Seasons') }}: {{ detailsStore.details[0]?.number_of_seasons }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Episodes')}}: {{ detailsStore.details[0]?.number_of_episodes }}
+                  {{ $t('Episodes') }}: {{ detailsStore.details[0]?.number_of_episodes }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{$t('Genres')}}:
+                  {{ $t('Genres') }}:
                   <span v-for="(genre, index) in detailsStore.details[0]?.genres" :key="index" class="text-gray-500">
                     {{ genre.name }}<span v-if="index < (detailsStore.details[0]?.genres?.length ?? 0) - 1">, </span>
                   </span>
                 </p>
                 <p class="mt-2 text-sm text-gray-500">
-                  {{$t('Rating')}}: {{ detailsStore.details[0]?.vote_average }}
+                  {{ $t('Rating') }}: {{ detailsStore.details[0]?.vote_average }}
                 </p>
               </div>
             </div>
@@ -125,8 +117,11 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div v-if="page === 'videos'" class="w-full md:w-11/16 flex flex-col py-5">
-        <div class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
+      <div v-if="page === '1'" class="w-full md:w-11/16 flex flex-col py-5">
+        <div v-if="videostore.tvVideos.length === 0" class="flex items-center justify-center w-full">
+          <p class="text-gray-500">{{ $t('No_Videos_Available') }}</p>
+        </div>
+        <div v-else class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
           <div v-if="videostore.tvVideos.length >= 3" class="flex flex-row gap-4 w-full ">
             <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.tvVideos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
@@ -140,7 +135,7 @@ onMounted(async () => {
       </div>
     </div>
     <h1 class="text-lg md:text-xl font-bold pl-6 pt-8">
-      {{$t('Top_Rated')}} {{$t('Tv_Shows')}}
+      {{ $t('Top_Rated') }} {{ $t('Tv_Shows') }}
     </h1>
     <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
       <div v-for="(rated, index) in ratedStore.rated" :key="index">
