@@ -1,4 +1,3 @@
-import type { Media } from '~/type'
 
 export const useSearchStore = defineStore('SearchStore', () => {
   const { locale } = useI18n()

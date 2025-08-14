@@ -1,6 +1,9 @@
-export type MediaType = 'movie' | 'tv'
+declare global{
 
-export interface Media {
+  
+  export type MediaType = 'movie' | 'tv'
+  
+  export interface Media {
   adult: boolean
   backdrop_path: string
   genre_ids: number[]
@@ -139,4 +142,6 @@ export interface QueryItem {
 
 export interface Credits {
   cast: Media[]
+}
+
 }

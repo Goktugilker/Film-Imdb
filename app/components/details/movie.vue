@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { MediaType } from '~/type'
 
 const { locale } = useI18n()
 const route = useRoute()

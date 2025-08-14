@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { TabsItem } from '@nuxt/ui'
-import type { MediaType } from '~/type'
 
 const { locale, t } = useI18n()
 const route = useRoute()

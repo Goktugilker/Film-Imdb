@@ -121,12 +121,12 @@ watch(locale, async () => {
     <!-- TvShows: İçerik -->
     <div
       v-else
-      class="flex animate-scroll-x-reverse space-x-6 w-max px-4 py-2"
+      class="flex animate-scroll-x-reverse space-x-3.5 w-max px-4 py-2"
     >
       <div
         v-for="(media, id) in mediaStore.TvShows.slice(0, 20).reverse()"
         :key="id"
-        class="min-w-[200px] w-[200px] h-[400px] cursor-pointer hover:scale-105 transition-transform rounded-4xl border"
+        class="min-w-[200px] w-[200px] h-[400px] cursor-pointer hover:scale-110 transition-transform rounded-4xl border"
         :class="isDark ? 'border-gray-700' : 'border-gray-300'"
         @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"
       >

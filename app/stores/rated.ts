@@ -1,4 +1,3 @@
-import type { Media } from '~/type'
 
 export const useRatedStore = defineStore('RatedStore', () => {
   const { locale } = useI18n()

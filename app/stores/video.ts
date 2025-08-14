@@ -1,4 +1,3 @@
-import type { Media } from '~/type'
 
 export const useVideoStore = defineStore('VideoStore', () => {
   const { locale } = useI18n()
