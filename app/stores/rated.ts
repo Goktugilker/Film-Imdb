@@ -1,4 +1,3 @@
-
 export const useRatedStore = defineStore('RatedStore', () => {
   const { locale } = useI18n()
   const rated = ref<Media[]>([])

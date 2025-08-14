@@ -4,8 +4,6 @@ definePageMeta({
 })
 const route = useRoute()
 const page = route.params.media as string
-
-
 </script>
 
 <template>

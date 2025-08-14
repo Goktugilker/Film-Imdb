@@ -1,4 +1,3 @@
-
 export const useDetailStore = defineStore('DetailStore', () => {
   const { locale } = useI18n()
   const accessToken = ref(useRuntimeConfig().public.accessToken)

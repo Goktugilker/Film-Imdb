@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { setLocale, locale } = useI18n()
+const mediaStore = useMediaStore()
 </script>
 
 <template>
@@ -34,13 +35,15 @@ const { setLocale, locale } = useI18n()
         variant="link"
         @click="$router.push('/tv')"
       />
+    <lists-genre />
+
     </div>
     <div>
       <UButton
         size="xl"
         variant="ghost"
-        :icon="locale === 'en' ? 'flag:us-1x1' : 'flag:tr-1x1'"
-        @click="setLocale(locale === 'en' ? 'tr' : 'en')"
+        :icon="locale === 'en' ? 'circle-flags:uk' : 'circle-flags:tr'"
+        @click="setLocale(locale === 'en' ? 'tr' : 'en'), mediaStore.changeLang()"
       />
 
       <UButton

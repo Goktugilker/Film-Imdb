@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 definePageMeta({
   name: 'Media Details',
 })

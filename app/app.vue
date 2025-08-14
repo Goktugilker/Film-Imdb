@@ -1,13 +1,13 @@
-<script setup lang="ts">
 
+<script setup lang="ts">
 </script>
 
-<template class="flex w-dvw h-dvh overflow-hidden">
-  <Uapp>
+<template>
+  <UApp>
     <NuxtLayout>
-      <NuxtPage class="page" />
+      <NuxtPage />
     </NuxtLayout>
-  </Uapp>
+  </UApp>
 </template>
 
 <style>

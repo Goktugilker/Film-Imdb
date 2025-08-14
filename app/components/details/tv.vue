@@ -118,7 +118,9 @@ const items = computed<TabsItem[]>(() => [
       </div>
       <div v-if="page === '1'" class="w-full md:w-11/16 flex flex-col py-5">
         <div v-if="videostore.tvVideos.length === 0" class="flex items-center justify-center w-full">
-          <p class="text-gray-500">{{ $t('No_Videos_Available') }}</p>
+          <p class="text-gray-500">
+            {{ $t('No_Videos_Available') }}
+          </p>
         </div>
         <div v-else class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
           <div v-if="videostore.tvVideos.length >= 3" class="flex flex-row gap-4 w-full ">

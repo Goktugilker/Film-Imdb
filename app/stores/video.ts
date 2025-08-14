@@ -1,4 +1,3 @@
-
 export const useVideoStore = defineStore('VideoStore', () => {
   const { locale } = useI18n()
   const movieVideos = ref<Media[]>([])
