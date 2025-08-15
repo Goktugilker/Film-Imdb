@@ -13,5 +13,9 @@
   "Top_Rated": "Top Rated",
   "First_Aired": "First Air date",
   "Videos": "Videos",
-  "No_Videos_Available": "No Videos Available"
+  "No_Videos_Available": "No Videos Available",
+  "404_Page": "404 Not Found",
+  "looking_page": "The page you are looking for does not exist."
+
+  
 }

@@ -1,6 +1,7 @@
 export const useRatedStore = defineStore('RatedStore', () => {
   const { locale } = useI18n()
   const rated = ref<Media[]>([])
+  const ratedPage = ref("1")
   const accessToken = ref(useRuntimeConfig().public.accessToken)
   const options = {
     method: 'GET',
@@ -10,20 +11,16 @@ export const useRatedStore = defineStore('RatedStore', () => {
     },
   }
   async function fetchRated(type: MediaType) {
-    if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/${type}/top_rated?language=tr-TR&page=1`, options)
+    
+      const response = await fetch(`https://api.themoviedb.org/3/${type}/top_rated?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}&page=${ratedPage.value}`, options)
       const data = await response.json()
-      rated.value = data.results
-    }
-    if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/${type}/top_rated?language=en-US&page=1`, options)
-      const data = await response.json()
-      rated.value = data.results
-    }
+      rated.value.push(...(data.results as Media[]))
+    
   }
  
   return {
     fetchRated,
+    ratedPage,
     rated,
 
   }

@@ -9,23 +9,86 @@ const mediaId = Number(route.params.id)
 const page = ref<'overview' | 'videos'>('overview')
 
 onMounted(async () => {
-  detailsStore.details = []
-  detailsStore.cast = []
-  videostore.videos = []
-
   await detailsStore.fetchDetails(mediaId, mediaType)
   await detailsStore.fetchCredits(mediaId, mediaType)
   await videostore.fetchVideos(mediaId, mediaType)
   await ratedStore.fetchRated(mediaType)
 })
+onBeforeUnmount(() => {
+  detailsStore.details = []
+  detailsStore.cast = []
+  videostore.videos = []
+  ratedStore.rated = []
+  ratedStore.ratedPage = "1"
+})
 
 watch(locale, async () => {
-  // Dil değiştiğinde tüm verileri yeniden yükle
   await detailsStore.fetchDetails(mediaId, mediaType)
   await detailsStore.fetchCredits(mediaId, mediaType)
   await videostore.fetchVideos(mediaId, mediaType)
   await ratedStore.fetchRated(mediaType)
 }, { immediate: false, deep: true })
+
+const scrollContainer = ref<HTMLElement>()
+let scrollInterval: NodeJS.Timeout | null = null
+
+// Mouse pozisyonuna göre scroll
+const handleMouseMove = (event: MouseEvent) => {
+  if (!scrollContainer.value) return
+  
+  const container = scrollContainer.value
+  const rect = container.getBoundingClientRect()
+  const mouseX = event.clientX - rect.left
+  const containerWidth = rect.width
+  
+  // Sağ tarafta mı kontrolü (son %20'lik kısım)
+  if (mouseX > containerWidth * 0.8) {
+    startAutoScroll('right')
+  }
+  // Sol tarafta mı kontrolü (ilk %20'lik kısım)  
+  else if (mouseX < containerWidth * 0.2) {
+    startAutoScroll('left')
+  }
+  else {
+    stopAutoScroll()
+  }
+}
+
+// Otomatik scroll başlat
+const startAutoScroll = (direction: 'left' | 'right') => {
+  if (scrollInterval) return
+  
+  scrollInterval = setInterval(() => {
+    if (!scrollContainer.value) return
+    
+    const scrollAmount = direction === 'right' ? 5 : -5
+    scrollContainer.value.scrollLeft += scrollAmount
+  }, 16) // 60fps
+}
+
+// Otomatik scroll durdur
+const stopAutoScroll = () => {
+  if (scrollInterval) {
+    clearInterval(scrollInterval)
+    scrollInterval = null
+  }
+}
+
+const scrollPosition = ref(0)
+
+// Scroll kontrol fonksiyonu
+const onRatedScroll = (event: Event) => {
+  const element = event.target as HTMLElement
+  const { scrollLeft, scrollWidth, clientWidth } = element
+  scrollPosition.value = scrollLeft
+  
+  if (scrollLeft + clientWidth >= scrollWidth - 50) {
+    ratedStore.ratedPage = String(Number(ratedStore.ratedPage) + 1)
+    ratedStore.fetchRated(mediaType)
+  }
+}
+
+
 </script>
 
 <template>
@@ -64,7 +127,7 @@ watch(locale, async () => {
         />
       </div>
     </div>
-    <div class="w-full p-4 flex flex-col md:flex-row gap-4 pt-8">
+    <div class="w-full p-4 flex flex-col md:flex-row gap-12 pt-8 px-14">
       <div class="w-full md:w-1/4">
         <img :src="`https://image.tmdb.org/t/p/w500${detailsStore.details[0]?.poster_path}`" alt="Movie Poster" class="w-full object-cover rounded-4xl">
       </div>
@@ -150,7 +213,13 @@ watch(locale, async () => {
       <span v-if="mediaType === 'movie'">{{ $t('Movies') }}</span>
       <span v-else>{{ $t('Tv_Shows') }}</span>
     </h1>
-    <div class="flex overflow-x-auto gap-4 w-full px-4 mb-8 min-h-[460px] items-start">
+    <div 
+      ref="scrollContainer"
+      class="flex overflow-x-auto gap-4 w-full px-4 mb-8 min-h-[460px] items-start scrollbar-hide" 
+      @scroll="onRatedScroll"
+      @mousemove="handleMouseMove"
+      @mouseleave="stopAutoScroll"
+    >
       <media-card
         v-for="(rated, id) in ratedStore.rated" :key="id"
         :media="rated"
@@ -160,3 +229,13 @@ watch(locale, async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+</style>

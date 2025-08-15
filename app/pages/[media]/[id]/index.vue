@@ -6,6 +6,5 @@ definePageMeta({
 </script>
 
 <template>
-  <!-- Filmler -->
-  <details-movie />
+  <details-media />
 </template>

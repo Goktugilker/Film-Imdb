@@ -3,17 +3,13 @@ definePageMeta({
   name: 'Media List',
 })
 const route = useRoute()
-const page = route.params.media as string
+const router = useRouter()
+const mediaType = route.params.media as string
+  if(mediaType !== 'movie' && mediaType !== 'tv') {
+    router.push({ name: '404 Not Found' })
+  }
 </script>
 
-<template>
-  <div v-if="page === 'movie'">
-    <ListsMovie />
-  </div>
-  <div v-else-if="page === 'tv'">
-    <lists-movie/>
-  </div>
-  <div v-else>
-    404 Not Found
-  </div>
+<template>  
+    <ListsMedia />
 </template>

@@ -24,33 +24,22 @@ export const useMediaStore = defineStore('MediaStore', () => {
   }
 
   async function fetchMedias(type: MediaType) {
-    if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/discover/${type}?include_adult=false&include_null_first_air_dates=false&language=tr-TR&page=${page.value}&sort_by=popularity.desc`, options)
+   
+      const response = await fetch(`https://api.themoviedb.org/3/discover/${type}?include_adult=false&include_null_first_air_dates=false&language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}&page=${page.value}&sort_by=popularity.desc`, options)
       const data = await response.json()
       medias.value.push(...(data.results as Media[]))
       langChange.value = false
-    }
-    else if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/discover/${type}?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${page.value}&sort_by=popularity.desc`, options)
-      const data = await response.json()
-      medias.value.push(...(data.results as Media[]))
-      langChange.value = false
-    }
+  
   }
   async function fetchTvVideos() {
     if (!selectedTvShow.value) {
       throw new Error('No TV show selected')
     }
-    if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/tv/${selectedTvShow.value.id}/videos?language=tr-TR`, options)
+   
+      const response = await fetch(`https://api.themoviedb.org/3/tv/${selectedTvShow.value.id}/videos?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}`, options)
       const data = await response.json()
       selectedTvShow.value = data.results
-    }
-    if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/tv/259909/videos?language=en-US`, options)
-      const data = await response.json()
-      selectedTvShow.value = data.results
-    }
+    
   }
 
   return {

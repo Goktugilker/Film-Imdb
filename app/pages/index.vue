@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  name: 'home',
+})
 const { locale } = useI18n()
 const mediaStore = useMediaStore()
 const searchStore = useSearchStore()
@@ -40,7 +43,7 @@ const tvShows = computed(() => {
     </div>
     <div v-if="mediaStore.searchQuery" class="w-full max-w-5xl mx-auto px-4">
       <div v-for="(media, id) in searchStore.results.slice(0, 5)" :key="id" class="mb-4">
-        <UCard v-if="media.poster_path !== null" class="cursor-pointer transition-all hover:shadow-lg" @click="$router.push({ name: 'Media Details', params: { media: media.title ? 'movies' : 'tv', id: media.id } })">
+        <UCard v-if="media.poster_path !== null" class="cursor-pointer transition-all hover:shadow-lg" @click="$router.push({ name: 'Media Details', params: { media: media.title ? 'movie' : 'tv', id: media.id } })">
           <div class="flex flex-row items-center gap-4 p-4">
             <div class="flex-shrink-0">
               <img :src="`https://image.tmdb.org/t/p/w200${media.poster_path}`" alt="" class="w-16 h-24 object-cover rounded">

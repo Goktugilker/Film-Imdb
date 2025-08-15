@@ -26,22 +26,22 @@ function handleScroll() {
     mediaStore.fetchMedias(mediaType)
   }
 }
+
 </script>
 
 <template>
   <div
     class="flex flex-wrap gap-4 h-full w-full justify-center"
   >
-    <h1 class="text-3xl font-bold w-full text-center mb-4">
-      {{ $t('movies') }}
+    <h1 class="text-3xl font-bold w-full text-center mb-4 uppercase">
+      {{ $t(mediaType === 'movie' ? 'movies' : 'Tv_Shows') }}
     </h1>
-
     <media-card
       v-for="(media, id) in mediaStore.medias"
       :key="id"
       :media="media"
       class="w-[250px] cursor-pointer transition-all hover:shadow-2xl mb-12 mx-5 hover:shadow-red-800"
-      @click="$router.push({ name: 'Media Details', params: { media: mediaType , id: media.id } })"
+      @click="$router.push({ name: 'Media Details', params: { media: mediaType, id: media.id } })"
     />
   </div>
 </template>
