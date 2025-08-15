@@ -5,7 +5,7 @@
 <template class="h-full w-full">
   <UApp>
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage :class="isDark ? 'bg-gray-900 text-white' : 'bg-gray-300 text-gray-900'" />
     </NuxtLayout>
   </UApp>
 </template>
