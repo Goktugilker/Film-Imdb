@@ -2,7 +2,7 @@
 <script setup lang="ts">
 </script>
 
-<template>
+<template class="h-full w-full">
   <UApp>
     <NuxtLayout>
       <NuxtPage />

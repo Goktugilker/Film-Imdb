@@ -1,11 +1,13 @@
 <script setup lang="ts">
 const mediaStore = useMediaStore()
 const { locale } = useI18n()
+const route = useRoute()
+const mediaType: MediaType = (route.params.media as MediaType | undefined) ?? 'movie'
 onMounted(async () => {
-  await mediaStore.fetchMedias('movie')
+  await mediaStore.fetchMedias(mediaType)
 })
 watch(locale, async () => {
-  await mediaStore.fetchMedias('movie')
+  await mediaStore.fetchMedias(mediaType)
 }, { immediate: false, deep: true })
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
@@ -21,7 +23,7 @@ function handleScroll() {
   const pageHeight = document.body.offsetHeight
   if (scrollPosition >= pageHeight) {
     mediaStore.page += 1
-    mediaStore.fetchMedias('movie')
+    mediaStore.fetchMedias(mediaType)
   }
 }
 </script>
@@ -39,7 +41,7 @@ function handleScroll() {
       :key="id"
       :media="media"
       class="w-[250px] cursor-pointer transition-all hover:shadow-2xl mb-12 mx-5 hover:shadow-red-800"
-      @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: media.id } })"
+      @click="$router.push({ name: 'Media Details', params: { media: mediaType , id: media.id } })"
     />
   </div>
 </template>

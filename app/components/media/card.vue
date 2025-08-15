@@ -5,23 +5,19 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="min-w-[200px] w-[200px] cursor-pointer hover:scale-110 transition-transform rounded-4xl border -mb-7"
-    :class="isDark ? 'border-gray-700' : 'border-gray-900'"
-  >
-    <div>
-      <img
-        v-if="media.poster_path"
-        :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
-        alt=""
-        class="w-xl h-auto rounded-4xl"
-      >
-    </div>
-    <div class="flex flex-col justify-center items-center h-[100px] p-2">
-      <h1 class="text-2xl font-bold flex flex-wrap justify-center ">
-        {{ (media.title ?? media.name ?? '').length > 25 ? `${(media.title ?? media.name ?? '').slice(0, 25)}...` : (media.title ?? media.name) }}
+  <div class="min-w-[200px] w-[200px] h-[400px] cursor-pointer hover:scale-110 transition-transform rounded-4xl overflow-hidden flex flex-col">
+    <img
+      v-if="media.poster_path"
+      :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
+      alt=""
+      class="w-full h-[300px] object-cover rounded-t-4xl flex-shrink-0"
+    >
+
+    <div class="bg-gradient-to-b to-fuchsia-600/80  from-transparent p-4 text-white rounded-b-4xl h-[100px] flex flex-col justify-center">
+      <h1 class="text-sm font-bold text-center mb-2 line-clamp-3 leading-tight">
+        {{ media.title ?? media.name ?? '' }}
       </h1>
-      <div class="flex justify-center items-center mt-2">
+      <div class="flex justify-center items-center">
         <MediaRateStar :vote_average="media.vote_average" />
       </div>
     </div>

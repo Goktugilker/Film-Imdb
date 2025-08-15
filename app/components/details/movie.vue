@@ -2,34 +2,39 @@
 const { locale } = useI18n()
 const route = useRoute()
 const videostore = useVideoStore()
-
 const detailsStore = useDetailStore()
 const ratedStore = useRatedStore()
-const mediaType: string | undefined = (route.params.media as MediaType | undefined) ?? undefined
-const movieId = Number(route.params.id)
+const mediaType: MediaType = (route.params.media as MediaType | undefined) ?? 'movie'
+const mediaId = Number(route.params.id)
 const page = ref<'overview' | 'videos'>('overview')
 
 onMounted(async () => {
   detailsStore.details = []
   detailsStore.cast = []
-  videostore.movieVideos = []
-  watch(locale, async () => {
-    await detailsStore.fetchDetails(movieId, 'movie')
-    await videostore.fetchMovieVideos(movieId)
-    await ratedStore.fetchRatedMovies()
-  }, { immediate: true, deep: true })
-  await detailsStore.fetchCreditsMovie(movieId)
-  await videostore.fetchMovieVideos(movieId)
+  videostore.videos = []
+
+  await detailsStore.fetchDetails(mediaId, mediaType)
+  await detailsStore.fetchCredits(mediaId, mediaType)
+  await videostore.fetchVideos(mediaId, mediaType)
+  await ratedStore.fetchRated(mediaType)
 })
+
+watch(locale, async () => {
+  // Dil değiştiğinde tüm verileri yeniden yükle
+  await detailsStore.fetchDetails(mediaId, mediaType)
+  await detailsStore.fetchCredits(mediaId, mediaType)
+  await videostore.fetchVideos(mediaId, mediaType)
+  await ratedStore.fetchRated(mediaType)
+}, { immediate: false, deep: true })
 </script>
 
 <template>
-  <div v-if="mediaType === 'movies'" class="overflow-hidden flex flex-col justify-center">
+  <div class="overflow-hidden flex flex-col justify-center">
     <div class="w-full relative ">
       <div class="bottom-0 left-0 z-1 absolute p-4 text-white flex flex-col gap-2">
         <div class="flex flex-row gap-2">
           <h1 class="text-2xl">
-            {{ detailsStore.details[0]?.title }}
+            {{ detailsStore.details[0]?.title || detailsStore.details[0]?.name }}
           </h1>
           <media-rate-star :vote_average="detailsStore.details[0]?.vote_average ?? 0" />
         </div>
@@ -68,12 +73,14 @@ onMounted(async () => {
         <div class="flex flex-col">
           <div>
             <h1 class="text-xl md:text-3xl font-bold mb-4">
-              {{ detailsStore.details[0]?.title }}
+              {{ detailsStore.details[0]?.title || detailsStore.details[0]?.name }}
             </h1>
             <div class="flex flex-row gap-4 w-full mt-6">
               <div class="w-1/2 flex flex-col">
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
-                  {{ $t('Release-Date') }}: {{ detailsStore.details[0]?.release_date }}
+                  <span v-if="mediaType === 'movie'"> {{ $t('Release-Date') }}:</span>
+                  <span v-else> {{ $t('First_Aired') }}:</span>
+                  {{ detailsStore.details[0]?.release_date || detailsStore.details[0]?.first_air_date }}
                 </p>
                 <p class="mt-2 text-lg md:text-xl --ui-txt-color">
                   {{ $t('Popularity') }}: {{ detailsStore.details[0]?.popularity }}
@@ -120,38 +127,36 @@ onMounted(async () => {
         </div>
       </div>
       <div v-if="page === 'videos'" class="w-full md:w-11/16 flex flex-col py-5">
-        <div v-if="videostore.movieVideos.length === 0" class="flex flex-row items-center justify-center w-full h-full">
+        <div v-if="videostore.videos.length === 0" class="flex flex-row items-center justify-center w-full h-full">
           <p class="text-gray-500 text-6xl text-center">
             {{ $t('No_Videos_Available') }}
           </p>
         </div>
         <div v-else class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
-          <div v-if="videostore.movieVideos.length >= 3" class="flex flex-row gap-4 w-full ">
-            <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          <div v-if="videostore.videos.length >= 3" class="flex flex-row gap-4 w-full ">
+            <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.videos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
-          <div v-else-if="videostore.movieVideos.length === 2" class="flex flex-row gap-4 mb-4 w-full">
-            <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class=" aspect-video mb-4 w-full  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          <div v-else-if="videostore.videos.length === 2" class="flex flex-row gap-4 mb-4 w-full">
+            <iframe v-for="(video, id) in videostore.videos.length" :key="id" class=" aspect-video mb-4 w-full  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.videos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
-          <div v-else-if="videostore.movieVideos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
-            <iframe v-for="(video, id) in videostore.movieVideos.length" :key="id" class="w-full aspect-video mb-4  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.movieVideos[id]?.key}`" frameborder="0" allowfullscreen />
+          <div v-else-if="videostore.videos.length === 1" class="flex flex-row gap-4 mb-4 w-full">
+            <iframe v-for="(video, id) in videostore.videos.length" :key="id" class="w-full aspect-video mb-4  rounded-4xl " :src="`https://www.youtube.com/embed/${videostore.videos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
         </div>
       </div>
     </div>
     <h1 class="text-lg md:text-xl font-bold pl-6 pt-8">
-      {{ $t('Top_Rated') }} {{ $t('movies') }}
+      {{ $t('Top_Rated') }}
+      <span v-if="mediaType === 'movie'">{{ $t('Movies') }}</span>
+      <span v-else>{{ $t('Tv_Shows') }}</span>
     </h1>
-    <div class="flex overflow-x-auto gap-4 w-full px-4 py-2">
-      <div v-for="(rated, index) in ratedStore.rated" :key="index">
-        <u-card class="flex flex-row gap-4 mt-4 w-[215px] flex-shrink-0 cursor-pointer h-[330px] rounded-[50px]" @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: rated.id } })">
-          <div class="flex flex-col items-center justify-between">
-            <img :src="`https://image.tmdb.org/t/p/w185${rated.poster_path}`" alt="" class=" object-cover rounded-4xl">
-            <p class="text-lg whitespace-normal break-words">
-              {{ rated.title }}
-            </p>
-          </div>
-        </u-card>
-      </div>
+    <div class="flex overflow-x-auto gap-4 w-full px-4 mb-8 min-h-[460px] items-start">
+      <media-card
+        v-for="(rated, id) in ratedStore.rated" :key="id"
+        :media="rated"
+        class="flex-shrink-0 mt-6"
+        @click="$router.push({ name: 'Media Details', params: { media: mediaType, id: rated.id } })"
+      />
     </div>
   </div>
 </template>

@@ -2,26 +2,34 @@
 const { locale } = useI18n()
 const mediaStore = useMediaStore()
 const searchStore = useSearchStore()
+
 onMounted(async () => {
   await mediaStore.fetchMedias('movie')
   await mediaStore.fetchMedias('tv')
 })
+
 watch(() => mediaStore.searchQuery, () => {
   searchStore.search(mediaStore.searchQuery)
 })
+
 watch(locale, async () => {
   await mediaStore.fetchMedias('movie')
   await mediaStore.fetchMedias('tv')
 }, { immediate: false, deep: true })
+
 onBeforeUnmount(() => {
   mediaStore.page = 1
   mediaStore.medias = []
+})
+
+// TV shows için ayrı computed property
+const tvShows = computed(() => {
+  return mediaStore.medias.slice(20, 41)
 })
 </script>
 
 <template>
   <div class=" page overflow-hidden flex flex-col justify-center items-center">
-
     <div class="p-8 max-w-5xl mx-auto w-full">
       <UInput
         v-model="mediaStore.searchQuery"
@@ -81,38 +89,43 @@ onBeforeUnmount(() => {
         v-for="(media, id) in mediaStore.medias.slice(0, 20)"
         :key="id"
         :media="media"
-        @click="$router.push({ name: 'Media Details', params: { media: 'movies', id: media.id } })"
+        @click="$router.push({ name: 'Media Details', params: { media: 'movie', id: media.id } })"
       />
     </div>
     <br><br>
-    <h1 class="text-2xl font-bold">
-      {{ $t('Tv_Shows') }}
-    </h1>
+    <div>
+      <h1 class="text-2xl font-bold">
+        {{ $t('Tv_Shows') }}
+      </h1>
+      <br>
+    </div>
+
     <!-- TvShows: Skeleton -->
     <div
-      v-if="mediaStore.medias.length < 20"
-      class="flex animate-scroll-x-reverse space-x-3.5 w-max px-4 py-2"
+      v-if="mediaStore.medias.length < 40"
+      class="flex animate-scroll-x-reverse space-x-3.5 w-max px-4 py-2 h-[400px]"
     >
       <UCard
-        v-for="n in 40"
+        v-for="n in 20"
         :key="n"
         class="min-w-[200px] w-[200px] cursor-pointer hover:scale-100 transition-transform rounded-4xl"
       >
         <USkeleton class="w-auto h-64 rounded-4xl" />
       </UCard>
     </div>
+
     <!-- TvShows: İçerik -->
     <div
       v-else
-      class="flex animate-scroll-x-reverse space-x-3.5 w-max px-4 py-2"
+      class="flex animate-scroll-x-reverse space-x-3.5 w-max px-4 py-2 mb-16 h-[400px]"
     >
       <MediaCard
-        v-for="(media, id) in mediaStore.medias.slice(20, 41).reverse()"
+        v-for="(media, id) in tvShows"
         :key="id"
         :media="media"
-        class="mb-8 mt-6"
         @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"
       />
+      
     </div>
   </div>
 </template>

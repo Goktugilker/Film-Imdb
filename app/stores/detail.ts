@@ -10,7 +10,7 @@ export const useDetailStore = defineStore('DetailStore', () => {
       Authorization: accessToken.value ? `Bearer ${accessToken.value}` : '',
     },
   }
-  async function fetchDetails(id: number, type: string) {
+  async function fetchDetails(id: number, type: MediaType) {
     if (locale.value === 'en') {
       const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}?language=en-US`, options)
       const data = await response.json()
@@ -22,38 +22,24 @@ export const useDetailStore = defineStore('DetailStore', () => {
       details.value = [data]
     }
   }
-  async function fetchCreditsMovie(id: number) {
+  async function fetchCredits(id: number,type: MediaType) {
     if (locale.value === 'tr') {
       cast.value = []
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=tr-TR`, options)
+      const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}/credits?language=tr-TR`, options)
       const data = await response.json()
       cast.value = data.cast
     }
     if (locale.value === 'en') {
       cast.value = []
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
+      const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}/credits?language=en-US`, options)
       const data = await response.json()
       cast.value = data.cast
     }
   }
-  async function fetchCreditsTv(id: number) {
-    if (locale.value === 'tr') {
-      cast.value = []
-      const response = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?language=tr-TR`, options)
-      const data = await response.json()
-      cast.value = data.cast
-    }
-    if (locale.value === 'en') {
-      cast.value = []
-      const response = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`, options)
-      const data = await response.json()
-      cast.value = data.cast
-    }
-  }
+  
   return {
     fetchDetails,
-    fetchCreditsMovie,
-    fetchCreditsTv,
+    fetchCredits,
     details,
     cast,
   }

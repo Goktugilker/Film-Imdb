@@ -7,11 +7,11 @@ const page = route.params.media as string
 </script>
 
 <template>
-  <div v-if="page === 'movies'">
+  <div v-if="page === 'movie'">
     <ListsMovie />
   </div>
   <div v-else-if="page === 'tv'">
-    <ListsTv />
+    <lists-movie/>
   </div>
   <div v-else>
     404 Not Found

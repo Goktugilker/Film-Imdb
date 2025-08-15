@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const { setLocale, locale } = useI18n()
 const mediaStore = useMediaStore()
+const mounted = ref(false)
+onMounted(() => mounted.value = true)
 </script>
 
 <template>
@@ -8,12 +10,16 @@ const mediaStore = useMediaStore()
     <div>
       <UButton
         size="xl"
-        class="mr-4 text-green-600 :hover:text-green-800"
-        label="NuxtPal"
-        icon="mdi:movie"
+        class="mr-4 text-2xl items-center justify-between"
         variant="link"
+        icon="mdi:movie"
         @click="$router.push('/')"
-      />
+      >
+        
+        <span class="bg-gradient-to-r from-violet-400/100 via-sky-500/100 to-teal-200/100 bg-clip-text text-transparent font-bold">
+          NuxtPal
+        </span>
+      </UButton>
       <UButton
         size="xl"
         label="Anasayfa"
@@ -26,17 +32,16 @@ const mediaStore = useMediaStore()
         label="Filmler"
         icon="mdi:film"
         variant="link"
-        @click="$router.push('/movies')"
+        @click="$router.push({ name: 'Media List', params: { media: 'movie' } })"
       />
       <UButton
         size="xl"
         label="Tv"
         icon="mdi:television"
         variant="link"
-        @click="$router.push('/tv')"
+        @click="$router.push({ name: 'Media List', params: { media: 'tv' } })"
       />
-    <lists-genre />
-
+      <lists-genre />
     </div>
     <div>
       <UButton
@@ -47,6 +52,7 @@ const mediaStore = useMediaStore()
       />
 
       <UButton
+        v-if="mounted"
         size="xl"
         :icon="isDark ? 'mdi:weather-night' : 'mdi:weather-sunny'"
         variant="ghost"

@@ -1,7 +1,6 @@
 export const useVideoStore = defineStore('VideoStore', () => {
   const { locale } = useI18n()
-  const movieVideos = ref<Media[]>([])
-  const tvVideos = ref<Media[]>([])
+  const videos = ref<Media[]>([])
   const apiKey = ref(useRuntimeConfig().public.apiKey)
   const accessToken = ref(useRuntimeConfig().public.accessToken)
   const options = {
@@ -11,36 +10,16 @@ export const useVideoStore = defineStore('VideoStore', () => {
       Authorization: accessToken.value ? `Bearer ${accessToken.value}` : '',
     },
   }
-  async function fetchMovieVideos(movieId: number) {
-    if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=tr-TR`, options)
-      const data = await response.json()
-      movieVideos.value = data.results
-    }
-    if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`, options)
-      const data = await response.json()
-      movieVideos.value = data.results
-    }
+  async function fetchVideos(id: number, type: MediaType) {
+    const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}`, options)
+    const data = await response.json()
+    videos.value = data.results
   }
-  async function fetchTvVideos(tvId: number) {
-    if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/videos?language=tr-TR`, options)
-      const data = await response.json()
-      tvVideos.value = data.results
-    }
-    if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/videos?language=en-US`, options)
-      const data = await response.json()
-      tvVideos.value = data.results
-    }
-  }
+
   return {
-    movieVideos,
-    tvVideos,
+    videos,
     apiKey,
     accessToken,
-    fetchMovieVideos,
-    fetchTvVideos,
+    fetchVideos,
   }
 })

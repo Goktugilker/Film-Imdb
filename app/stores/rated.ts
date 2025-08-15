@@ -9,33 +9,21 @@ export const useRatedStore = defineStore('RatedStore', () => {
       Authorization: accessToken.value ? `Bearer ${accessToken.value}` : '',
     },
   }
-  async function fetchRatedMovies() {
+  async function fetchRated(type: MediaType) {
     if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/top_rated?language=tr-TR&page=1`, options)
+      const response = await fetch(`https://api.themoviedb.org/3/${type}/top_rated?language=tr-TR&page=1`, options)
       const data = await response.json()
       rated.value = data.results
     }
     if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1`, options)
+      const response = await fetch(`https://api.themoviedb.org/3/${type}/top_rated?language=en-US&page=1`, options)
       const data = await response.json()
       rated.value = data.results
     }
   }
-  async function fetchRatedTv() {
-    if (locale.value === 'tr') {
-      const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?language=tr-TR&page=1`, options)
-      const data = await response.json()
-      rated.value = data.results
-    }
-    if (locale.value === 'en') {
-      const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1`, options)
-      const data = await response.json()
-      rated.value = data.results
-    }
-  }
+ 
   return {
-    fetchRatedMovies,
-    fetchRatedTv,
+    fetchRated,
     rated,
 
   }
