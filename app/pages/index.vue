@@ -38,7 +38,12 @@ const tvShows = computed(() => {
         v-model="mediaStore.searchQuery"
         icon="i-heroicons-magnifying-glass-20-solid"
         size="xl"
-        class="mb-6 w-full "
+        :placeholder="$t('Search for a movie or series...')"
+        class="mb-6 w-full"
+        :ui="{
+          base: 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white',
+        }"
+       
       />
     </div>
     <div v-if="mediaStore.searchQuery" class="w-full max-w-5xl mx-auto px-4">

@@ -13,14 +13,8 @@ defineProps<{
       class="w-full h-[300px] object-cover rounded-t-4xl flex-shrink-0"
     >
 
-    <div
-      class="bg-gradient-to-b to-fuchsia-600/80  from-transparent p-4 text-white rounded-b-4xl h-[100px] flex flex-col justify-center"
-      :class="!isDark ? 'bg-primary' : 'bg-gradient-to-b to-fuchsia-600/80 from-transparent'"
-    >
-      <h1
-        class="text-md font-bold text-center mb-2 line-clamp-3 leading-tight"
-        :class="isDark ? 'text-white' : 'text-gray-900'"
-      >
+    <div class="bg-gradient-to-b to-fuchsia-600/80 from-transparent md:bg-gradient-to-b md:to-transparent md:from-transparent md:bg-gray-100 md:dark:bg-gray-800  rounded-b-4xl h-[100px] flex flex-col justify-center">
+      <h1 class="text-md font-bold text-center mb-2 line-clamp-3 leading-tight text-white md:text-gray-900 md:dark:text-white">
         {{ media.title ?? media.name ?? '' }}
       </h1>
       <div class="flex justify-center items-center">
