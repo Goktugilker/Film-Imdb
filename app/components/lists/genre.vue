@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { DropdownMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 const genreStore = useGenreStore()
 const router = useRouter()
+const {locale}=useI18n()
 
 onMounted(async () => {
   await Promise.all([
@@ -10,8 +11,14 @@ onMounted(async () => {
     genreStore.fetchGenres('tv'),
   ])
 })
+watch(locale, () => {
+  genreStore.tvGenres=[]
+  genreStore.moviesGenres=[]
+  genreStore.fetchGenres('movie')
+  genreStore.fetchGenres('tv')
+})
 
-const items = computed<DropdownMenuItem[]>(() => [
+const items = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Movies',
     icon: 'i-lucide-film',
@@ -32,13 +39,10 @@ const items = computed<DropdownMenuItem[]>(() => [
 </script>
 
 <template>
-  <UButtonGroup>
-    <UDropdownMenu :items="items">
-      <UButton
-        color="neutral"
-        variant="outline"
-        icon="i-lucide-chevron-down"
-      />
-    </UDropdownMenu>
-  </UButtonGroup>
+  <UNavigationMenu
+    arrow
+    content-orientation="vertical"
+    :items="items"
+    class="w-full justify-center text-lg [&_button]:!text-primary [&_button:hover]:!text-primary-600 [&_button_*]:!text-primary [&_button:hover_*]:!text-primary-600"
+  />
 </template>
