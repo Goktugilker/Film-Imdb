@@ -2,6 +2,7 @@
 defineProps<{
   media: Media
 }>()
+
 </script>
 
 <template>
@@ -13,11 +14,15 @@ defineProps<{
       class="w-full h-[300px] object-cover rounded-t-4xl flex-shrink-0"
     >
 
-    <div class="bg-gradient-to-b to-fuchsia-600/80 from-transparent md:bg-gradient-to-b md:to-transparent md:from-transparent md:bg-gray-100 md:dark:bg-gray-800  rounded-b-4xl h-[100px] flex flex-col justify-center">
-      <h1 class="text-md font-bold text-center mb-2 line-clamp-3 leading-tight text-white md:text-gray-900 md:dark:text-white">
-        {{ media.title ?? media.name ?? '' }}
+    <div class=" bg-gray-100 dark:bg-gray-800  rounded-b-4xl h-[150px] flex flex-col ">
+      <h1  class="text-sm font-bold ml-3 mt-3 line-clamp-3 leading-tight text-white md:text-gray-900 md:dark:text-white">
+        {{ media.title?.slice(0, 25) ?? media.name?.slice(0, 25) ?? '' }}
+        <span v-if="(media.title && media.title.length > 25) || (media.name && media.name.length > 25)">...</span>
       </h1>
-      <div class="flex justify-center items-center">
+      <h3 class="text-xs text-gray-500 dark:text-gray-400 ml-3">
+        {{ media.release_date ?? media.first_air_date ?? '' }}
+      </h3>
+      <div class="flex ml-3 items-center">
         <MediaRateStar :vote_average="media.vote_average" />
       </div>
     </div>
