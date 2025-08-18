@@ -4,7 +4,6 @@ export const useGenreStore = defineStore('GenreStore', () => {
   const page = ref('1')
   const genreMedia = ref<Media[]>([])
   const { locale } = useI18n()
-  const lang = locale.value === 'en' ? 'en-US' : 'tr-Tr'
   const accessToken = ref(useRuntimeConfig().public.accessToken)
 
   const options = {

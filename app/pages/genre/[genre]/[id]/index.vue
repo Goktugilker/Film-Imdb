@@ -51,7 +51,7 @@ function handleScroll() {
       {{ mediaType === 'movie' ? 'MOVIES' : 'TV SHOWS' }} - {{ genreName }}
     </h1>
 
-    <div v-if="genreStore.genreMedia?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div v-if="genreStore.genreMedia?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center md:justify-items-start">
       <media-card
         v-for="media in genreStore.genreMedia"
         :key="media.id"
