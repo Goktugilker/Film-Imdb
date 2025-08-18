@@ -13,10 +13,9 @@ onMounted(() => mounted.value = true)
         class="mr-4 text-2xl items-center justify-between"
         variant="link"
         icon="mdi:movie"
-        @click="$router.push({name: 'home'})"
+        @click="$router.push({ name: 'home' })"
       >
-        
-        <span class="bg-gradient-to-r from-violet-400/100 via-sky-500/100 to-teal-200/100 bg-clip-text text-transparent font-bold">
+        <span class="bg-gradient-to-r from-violet-600/100 via-sky-700/100 to-teal-400/100 bg-clip-text text-transparent font-bold">
           NuxtPal
         </span>
       </UButton>
@@ -25,7 +24,8 @@ onMounted(() => mounted.value = true)
         label="Anasayfa"
         icon="mdi:home"
         variant="link"
-        @click="$router.push({name: 'home'})"
+
+        @click="$router.push({ name: 'home' })"
       />
       <UButton
         size="xl"

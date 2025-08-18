@@ -1,11 +1,10 @@
-
 <script setup lang="ts">
 </script>
 
-<template class="h-full w-full">
+<template class="flex h-dwh w-dvw">
   <UApp>
     <NuxtLayout>
-      <NuxtPage :class="isDark ? 'bg-gray-900 text-white' : 'bg-gray-300 text-gray-900'" />
+      <NuxtPage />
     </NuxtLayout>
   </UApp>
 </template>
@@ -16,6 +15,10 @@ h1,h2,h4,p{
 }
 .header,.footer {
   font-family: Bitcount Prop Single, sans-serif;
+}
+.pages{
+  background-color: var(--ui-bg-layout);
+  color: var(--ui-txt-color);
 }
 @keyframes scrollX {
   0% {

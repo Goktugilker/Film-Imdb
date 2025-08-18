@@ -1,7 +1,7 @@
 export const useGenreStore = defineStore('GenreStore', () => {
   const moviesGenres = ref<Genre[]>([])
   const tvGenres = ref<Genre[]>([])
-  const page = ref("1")
+  const page = ref('1')
   const genreMedia = ref<Media[]>([])
   const { locale } = useI18n()
   const lang = locale.value === 'en' ? 'en-US' : 'tr-Tr'

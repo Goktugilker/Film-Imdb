@@ -32,13 +32,13 @@ const tvShows = computed(() => {
 </script>
 
 <template>
-  <div class=" page overflow-hidden flex flex-col justify-center items-center">
+  <div class=" overflow-hidden flex flex-col justify-center items-center h-full">
     <div class="p-8 max-w-5xl mx-auto w-full">
       <UInput
         v-model="mediaStore.searchQuery"
         icon="i-heroicons-magnifying-glass-20-solid"
         size="xl"
-        class="mb-6 w-full"
+        class="mb-6 w-full "
       />
     </div>
     <div v-if="mediaStore.searchQuery" class="w-full max-w-5xl mx-auto px-4">
@@ -128,7 +128,6 @@ const tvShows = computed(() => {
         :media="media"
         @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"
       />
-      
     </div>
   </div>
 </template>

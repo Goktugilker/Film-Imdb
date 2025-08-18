@@ -1,4 +1,4 @@
-<template>
+<template >
   <header class=" bg-[var(--ui-bg-layout)] p-4 flex">
     <LayoutHeader />
   </header>

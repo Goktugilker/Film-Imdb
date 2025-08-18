@@ -20,21 +20,21 @@ export const useSearchStore = defineStore('SearchStore', () => {
     if (!query) {
       return []
     }
-    else{
+    else {
       const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}&page=1`, options)
       const data = await response.json()
-      resultMovies.value = data.results}
-   
+      resultMovies.value = data.results
+    }
   }
   async function searchTv(query: string) {
     if (!query) {
       return []
     }
-   else{
+    else {
       const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}&page=1`, options)
       const data = await response.json()
-      resultTv.value = data.results}
-   
+      resultTv.value = data.results
+    }
   }
 
   return {

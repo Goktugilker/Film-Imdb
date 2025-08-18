@@ -26,14 +26,13 @@ function handleScroll() {
     mediaStore.fetchMedias(mediaType)
   }
 }
-
 </script>
 
 <template>
   <div
     class="flex flex-wrap gap-4 h-full w-full justify-center"
   >
-    <h1 class="text-3xl font-bold w-full text-center mb-4 uppercase">
+    <h1 class="text-3xl font-bold w-full text-center mb-4 mt-6 uppercase">
       {{ $t(mediaType === 'movie' ? 'movies' : 'Tv_Shows') }}
     </h1>
     <media-card

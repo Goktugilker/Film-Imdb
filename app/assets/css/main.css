@@ -4,8 +4,12 @@
 :root {
   --ui-bg-layout: oklch(92% 0.004 286.32);
   --ui-txt-color: oklch(0% 0.004 286.32);
+  --ui-bg: #D1D5DC;
+  --ui-button-text:#372AAC;
 }
 .dark {
   --ui-bg-layout: #27272a; /* zinc-800 for dark mode */
-  --ui-txt-color: #f4f4f5; /* zinc-100 for dark mode */
-}
+  --ui-txt-color: #f4f4f5;/* zinc-100 for dark mode */
+  --ui-bg: #101828;
+  --ui-button-text: #7C86FF;
+   }

@@ -2,7 +2,6 @@
 definePageMeta({
   name: 'Media Details',
 })
-
 </script>
 
 <template>
