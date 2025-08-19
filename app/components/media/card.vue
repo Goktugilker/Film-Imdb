@@ -15,7 +15,7 @@ defineProps<{
     >
 
     <div class=" bg-gray-100 dark:bg-gray-800  rounded-b-4xl h-[150px] flex flex-col ">
-      <h1  class="text-sm font-bold ml-3 mt-3 line-clamp-3 leading-tight text-white md:text-gray-900 md:dark:text-white">
+      <h1  class="text-sm font-bold ml-3 mt-3 line-clamp-3 leading-tight text-gray-900dark:text-white">
         {{ media.title?.slice(0, 25) ?? media.name?.slice(0, 25) ?? '' }}
         <span v-if="(media.title && media.title.length > 25) || (media.name && media.name.length > 25)">...</span>
       </h1>
