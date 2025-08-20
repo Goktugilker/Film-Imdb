@@ -17,7 +17,7 @@ export const useRatedStore = defineStore('RatedStore', () => {
     const data = await response.json()
     rated.value.push(...(data.results as Media[]))
   }
-  async function fetchRecommendations(type:MediaType, id:number) {
+  async function fetchRecommendations(type: MediaType, id: number) {
     const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}/recommendations?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}&page=${recommendationsPage.value}`, options)
     const data = await response.json()
     recommendations.value.push(...(data.results as Media[]))
@@ -28,6 +28,6 @@ export const useRatedStore = defineStore('RatedStore', () => {
     ratedPage,
     rated,
     recommendations,
-    recommendationsPage
+    recommendationsPage,
   }
 })

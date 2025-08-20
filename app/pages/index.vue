@@ -43,7 +43,6 @@ const tvShows = computed(() => {
         :ui="{
           base: 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white',
         }"
-       
       />
     </div>
     <div v-if="mediaStore.searchQuery" class="w-full max-w-5xl mx-auto px-4">
@@ -75,6 +74,7 @@ const tvShows = computed(() => {
       </h1>
       <br>
     </div>
+
     <!-- Filmler: Skeleton -->
     <div
       v-if="mediaStore.medias.length < 20"
@@ -88,18 +88,36 @@ const tvShows = computed(() => {
         <USkeleton class="w-auto h-64 rounded-4xl" />
       </UCard>
     </div>
-    <!-- Filmler: İçerik -->
+
+    <!-- Filmler: Mobile -->
     <div
       v-else
-      class="flex animate-scroll-x space-x-3.5 w-max px-4 py-2 h-[400px]"
+      class="md:hidden flex overflow-x-auto space-x-3.5 w-full px-4 py-2 h-[420px] scrollbar-hide"
     >
       <MediaCard
         v-for="(media, id) in mediaStore.medias.slice(0, 20)"
         :key="id"
         :media="media"
+        class="flex-shrink-0"
         @click="$router.push({ name: 'Media Details', params: { media: 'movie', id: media.id } })"
       />
     </div>
+
+    <!-- Filmler: Desktop -->
+    <div
+      v-if="mediaStore.medias.length >= 20"
+      class="hidden md:flex  w-max px-4 py-2 mb-16 h-[420px]"
+    >
+      <div class="animate-scroll-x space-x-4.5">
+        <MediaCard
+          v-for="(media, id) in mediaStore.medias.slice(0, 20)"
+          :key="id"
+          :media="media"
+          @click="$router.push({ name: 'Media Details', params: { media: 'movie', id: media.id } })"
+        />
+      </div>
+    </div>
+
     <br><br>
     <div>
       <h1 class="text-2xl font-bold">
@@ -122,17 +140,43 @@ const tvShows = computed(() => {
       </UCard>
     </div>
 
-    <!-- TvShows: İçerik -->
+    <!-- TvShows: Mobile -->
     <div
       v-else
-      class="flex animate-scroll-x-reverse space-x-3.5 w-max px-4 py-2 mb-16 h-[400px]"
+      class="md:hidden flex overflow-x-auto space-x-3.5 w-full px-4 py-2 mb-16 h-[420px] scrollbar-hide"
     >
       <MediaCard
         v-for="(media, id) in tvShows"
         :key="id"
         :media="media"
+        class="flex-shrink-0"
         @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"
       />
     </div>
+
+    <!-- TvShows: Desktop -->
+    <div
+      v-if="mediaStore.medias.length >= 40"
+      class="hidden md:flex  w-max px-4 py-2 mb-16 h-[420px]"
+    >
+      <div class="animate-scroll-x-reverse space-x-4.5">
+        <MediaCard
+          v-for="(media, id) in tvShows"
+          :key="id"
+          :media="media"
+          @click="$router.push({ name: 'Media Details', params: { media: 'tv', id: media.id } })"
+        />
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+</style>

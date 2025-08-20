@@ -22,12 +22,11 @@ export const useDetailStore = defineStore('DetailStore', () => {
     const data = await response.json()
     cast.value = data.cast
   }
-  async function fetchPersonDetail(type: MediaType, id:string) {
+  async function fetchPersonDetail(type: MediaType, id: string) {
     person.value = []
     const response = await fetch(`https://api.themoviedb.org/3/person/${id}/${type}_credits?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}`, options)
     const data = await response.json()
     person.value = data.cast
-    
   }
 
   return {

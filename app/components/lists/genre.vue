@@ -3,7 +3,7 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 
 const genreStore = useGenreStore()
 const router = useRouter()
-const {locale}=useI18n()
+const { locale } = useI18n()
 
 onMounted(async () => {
   await Promise.all([
@@ -12,8 +12,8 @@ onMounted(async () => {
   ])
 })
 watch(locale, () => {
-  genreStore.tvGenres=[]
-  genreStore.moviesGenres=[]
+  genreStore.tvGenres = []
+  genreStore.moviesGenres = []
   genreStore.fetchGenres('movie')
   genreStore.fetchGenres('tv')
 })
