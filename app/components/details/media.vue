@@ -344,7 +344,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
           </div>
         </div>
       </div>
-      <div v-if="page === 'videos'" id="videos-section" class="w-full md:w-11/16 flex flex-col py-5">
+      <div v-if="page === 'videos'" id="videos-section" class="w-full md:w-11/16 flex flex-col md:py-5">
         <div v-if="videostore.videos.length === 0" class="flex flex-row items-center justify-center w-full h-full">
           <p class="text-gray-500 text-6xl text-center">
             {{ $t('No_Videos_Available') }}
