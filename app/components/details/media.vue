@@ -350,7 +350,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
             {{ $t('No_Videos_Available') }}
           </p>
         </div>
-        <div v-else class="flex flex-row gap-4  justify-around w-full overflow-x-auto px-10 ">
+        <div v-else class="flex flex-row gap-4  justify-around md:w-full overflow-x-auto md:px-10 ">
           <div v-if="videostore.videos.length >= 3" class="flex flex-row gap-4 w-full ">
             <iframe v-for="(video, id) in 10" :key="id" class="w-full aspect-video mb-4  rounded-4xl" :src="`https://www.youtube.com/embed/${videostore.videos[id]?.key}`" frameborder="0" allowfullscreen />
           </div>
