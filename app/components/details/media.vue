@@ -240,7 +240,9 @@ const items = computed<DropdownMenuItem[][]>(() => [
           </h1>
           <media-rate-star :vote_average="detailsStore.details[0]?.vote_average ?? 0" />
         </div>
-        <h4>{{ detailsStore.details[0]?.overview }}</h4>
+        <h4 class="break-words whitespace-pre-line text-base md:text-lg max-h-40 overflow-y-auto scrollbar-hide">
+          {{ detailsStore.details[0]?.overview }}
+        </h4>
       </div>
       <img :src="`https://image.tmdb.org/t/p/original${detailsStore.details[0]?.backdrop_path}`" alt="Movie Backdrop" class="w-full h-[450px] object-cover object-top">
       <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
