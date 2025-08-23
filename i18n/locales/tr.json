@@ -17,5 +17,16 @@
   "404_Page": "404 Bulunamadı",
   "looking_page": "Aradığınız sayfa mevcut değil.",
   "recommendations": "Önerilen",
-  "Search for a movie or series...": "Bir film veya dizi ara..."
+  "Search for a movie or series...": "Bir film veya dizi ara...",
+  "Known_For": "Bilinen İşi",
+  "Unknown": "Bilinmiyor",
+  "Birthday": "Doğum Tarihi",
+  "Gender": "Cinsiyet",
+  "Female": "Kadın",
+  "Male": "Erkek",
+  "Place_of_Birth": "Doğum Yeri",
+  "Also_Known_As": "Ayrıca Bilindiği İsimleri",
+  "Show_Less": "Daha az göster",
+  "Show_More": "Daha fazla oku",
+  "Works_Featured": "Yer aldığı işler"
 }

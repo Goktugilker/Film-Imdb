@@ -17,6 +17,16 @@
   "404_Page": "404 Not Found",
   "looking_page": "The page you are looking for does not exist.",
   "recommendations": "Recommended",
-  "Search for a movie or series...": "Search for a movie or series..."
-
+  "Search for a movie or series...": "Search for a movie or series...",
+  "Known_For": "Known For",
+  "Unknown": "Unknown",
+  "Birthday": "Birthday",
+  "Gender": "Gender",
+  "Female": "Female",
+  "Male": "Male",
+  "Place_of_Birth": "Place of Birth",
+  "Also_Known_As": "Also Known As",
+  "Show_Less": "Show Less",
+  "Show_More": "Show More",
+  "Works_Featured": "Featured Works"
 }

@@ -4,6 +4,7 @@ const personId = route.params.id as string
 const detailsStore = useDetailStore()
 const showFullBio = ref(false)
 const BIO_LIMIT = 350
+const { locale } = useI18n()
 
 onMounted(() => {
   detailsStore.fetchPersonDetail(personId)
@@ -12,7 +13,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   detailsStore.person = []
 })
-
+watch(locale, () => {
+  detailsStore.fetchPersonDetail(personId)
+  detailsStore.fetchPersonMedia(personId)
+})
 const biography = computed(() => detailsStore.person[0]?.biography || '')
 const isLong = computed(() => biography.value.length > BIO_LIMIT)
 const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
@@ -28,27 +32,29 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
           class="w-full max-w-3xs aspect-[2/3] object-cover rounded-4xl"
         >
         <h2 class="font-bold text-lg mt-5">
-          Bilinen İşi
+          {{ $t('Known_For') }}
         </h2>
         <p class="text-gray-600 dark:text-gray-300">
-          {{ detailsStore.person[0]?.known_for_department || 'Bilinmiyor' }}
+          {{ detailsStore.person[0]?.known_for_department || $t('Unknown') }}
         </p>
         <h2 class="font-bold text-lg mt-4">
-          Doğum Tarihi
+          {{ $t('Birthday') }}
         </h2>
         <p class="text-gray-600 dark:text-gray-300">
-          {{ detailsStore.person[0]?.birthday || 'Bilinmiyor' }}
+          {{ detailsStore.person[0]?.birthday || $t('Unknown') }}
         </p>
         <h2 class="text-lg mt-4 font-bold">
-          Cinsiyet
+          {{ $t('Gender') }}
         </h2>
         <p class="text-gray-600 dark:text-gray-300">
-          {{ detailsStore.person[0]?.gender === 1 ? 'Kadın' : 'Erkek' }}
+          {{ detailsStore.person[0]?.gender === 1 ? $t('Female') : $t('Male') }}
         </p>
-        <h2 class="text-lg mt-4 font-bold">Doğum Yeri</h2>
+        <h2 class="text-lg mt-4 font-bold">
+          {{ $t('Place_of_Birth') }}
+        </h2>
         <p>{{ detailsStore.person[0]?.place_of_birth }}</p>
         <h2 class="text-lg mt-4 font-bold">
-          Ayrıca Bilindiği İsimleri
+          {{ $t('Also_Known_As') }}
         </h2>
         <div v-if="detailsStore.person[0]?.also_known_as && detailsStore.person[0].also_known_as.length > 0">
           <p v-for="(name, key) in detailsStore.person[0].also_known_as" :key="key">
@@ -56,7 +62,7 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
           </p>
         </div>
         <div v-else>
-          <p>Bilinmiyor</p>
+          <p>{{ $t('Unknown') }}</p>
         </div>
       </div>
     </div>
@@ -72,19 +78,21 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
         class="mt-2 text-primary-600 hover:underline focus:outline-none"
         @click="showFullBio = !showFullBio"
       >
-        {{ showFullBio ? 'Daha az göster' : 'Daha fazla oku' }}
+        {{ showFullBio ? $t('Show_Less') : $t('Show_More') }}
       </button>
 
       <div class="mt-12 ">
-        <h1 class="font-bold">Yer aldığı işler</h1>
+        <h1 class="font-bold">
+          {{ $t('Works_Featured') }}
+        </h1>
         <div class="w-full flex flex-row h-116 gap-2 overflow-x-scroll overflow-y-hidden max-w-full">
           <media-card
-          v-for="(media, id) in detailsStore.personMedia[0]?.cast ?? []"
-          :key="id"
-          :media="media"
-          class="mt-6 ml-3 flex-shrink-0"
+            v-for="(media, id) in detailsStore.personMedia[0]?.cast ?? []"
+            :key="id"
+            :media="media"
+            class="mt-6 ml-3 flex-shrink-0"
           />
-        </div> 
+        </div>
       </div>
     </div>
   </div>
