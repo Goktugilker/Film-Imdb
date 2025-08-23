@@ -22,6 +22,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Movies',
     icon: 'i-lucide-film',
+    to: { name: 'Media List', params: { media: 'movie' } },
     children: genreStore.moviesGenres?.map(genre => ({
       label: genre.name,
       onSelect: () => router.push({ name: 'Genre Lists', params: { genre: 'movie', id: genre.id } }),
@@ -30,6 +31,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Tv',
     icon: 'i-lucide-tv',
+    to: { name: 'Media List', params: { media: 'tv' } },
     children: genreStore.tvGenres?.map(genre => ({
       label: genre.name,
       onSelect: () => router.push({ name: 'Genre Lists', params: { genre: 'tv', id: genre.id } }),

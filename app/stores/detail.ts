@@ -3,7 +3,8 @@ export const useDetailStore = defineStore('DetailStore', () => {
   const accessToken = ref(useRuntimeConfig().public.accessToken)
   const details = ref<Media []>([])
   const cast = ref<Media []>([])
-  const person = ref<Media []>([])
+  const person = ref<Person []>([])
+  const personMedia=ref<Person['combined_credits'][]>([])
   const options = {
     method: 'GET',
     headers: {
@@ -22,17 +23,25 @@ export const useDetailStore = defineStore('DetailStore', () => {
     const data = await response.json()
     cast.value = data.cast
   }
-  async function fetchPersonDetail(type: MediaType, id: string) {
+  async function fetchPersonDetail(id: string) {
     person.value = []
-    const response = await fetch(`https://api.themoviedb.org/3/person/${id}/${type}_credits?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}`, options)
+    const response = await fetch(`https://api.themoviedb.org/3/person/${id}?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}`, options)
     const data = await response.json()
-    person.value = data.cast
+    person.value = [data]
+  }
+  async function fetchPersonMedia(id: string) {
+    personMedia.value = []
+    const response = await fetch(`https://api.themoviedb.org/3/person/${id}/combined_credits?language=${locale.value === 'tr' ? 'tr-TR' : 'en-US'}`, options)
+    const data = await response.json()
+    personMedia.value = [data]
   }
 
   return {
     fetchDetails,
     fetchPersonDetail,
     fetchCredits,
+    fetchPersonMedia,
+    personMedia,
     details,
     cast,
     person,

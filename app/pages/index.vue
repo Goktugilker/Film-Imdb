@@ -9,6 +9,7 @@ const searchStore = useSearchStore()
 onMounted(async () => {
   await mediaStore.fetchMedias('movie')
   await mediaStore.fetchMedias('tv')
+  isHome.value = true
 })
 
 watch(() => mediaStore.searchQuery, () => {
@@ -23,6 +24,7 @@ watch(locale, async () => {
 onBeforeUnmount(() => {
   mediaStore.page = 1
   mediaStore.medias = []
+  isHome.value = false
 })
 
 // TV shows için ayrı computed property

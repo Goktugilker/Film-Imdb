@@ -1,6 +1,6 @@
 <script>
 definePageMeta({
-  name: 'Person-Details',
+  name: 'person-details',
 })
 </script>
 

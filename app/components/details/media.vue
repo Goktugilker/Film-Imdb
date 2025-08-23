@@ -330,7 +330,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
               <u-card
                 v-for="(cast, index) in detailsStore.cast.slice(0, 20)" :key="index"
                 class="flex flex-row items-center gap-4 mt-4 min-w-max flex-shrink-0"
-                @click="$router.push({ name: 'Person-Details', params: { type: mediaType, id: cast.id } })"
+                @click="$router.push({ name: 'person-details', params: { id: cast.id } })"
               >
                 <img :src="`https://image.tmdb.org/t/p/w200${cast.profile_path}`" alt="Cast Image" class="w-20 h-20 object-cover rounded-full">
                 <div>

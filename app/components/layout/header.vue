@@ -48,12 +48,13 @@ function toggleTvGenres() {
           </span>
         </UButton>
 
-        <div class="hidden md:flex flex-row items-center">
+        <div class="hidden md:flex flex-row items-center ">
           <UButton
             size="xl"
             label="Anasayfa"
             icon="mdi:home"
             variant="link"
+            :color="isHome ? 'primary' : 'neutral'"
             @click="$router.push({ name: 'home' })"
           />
           <lists-genre />

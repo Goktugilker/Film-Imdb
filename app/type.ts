@@ -22,6 +22,7 @@ declare global {
     video: boolean
     vote_average: number
     vote_count: number
+    biography?: string
     media_type?: MediaType
     // details
     homepage?: string
