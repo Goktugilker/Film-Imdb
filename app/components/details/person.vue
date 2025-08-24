@@ -75,7 +75,7 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
 
           {{ showFullBio || !isLong ? biography : `${shortBio}...` }}
         </span>
-        <span v-if="biography === ''">
+        <span v-if="biography === ''" class="text-gray-700 dark:text-gray-400">
           {{ $t('Biography_Not_Available') }}  
 
         </span>
