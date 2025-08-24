@@ -71,7 +71,14 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
         {{ detailsStore.person[0]?.name }}
       </h2>
       <p class="text-gray-600 dark:text-gray-300 whitespace-pre-line break-words">
-        {{ showFullBio || !isLong ? biography : `${shortBio}...` }}
+        <span>
+
+          {{ showFullBio || !isLong ? biography : `${shortBio}...` }}
+        </span>
+        <span v-if="biography === ''">
+          {{ $t('Biography_Not_Available') }}  
+
+        </span>
       </p>
       <button
         v-if="isLong"
@@ -91,6 +98,7 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
             :key="id"
             :media="media"
             class="mt-6 ml-3 flex-shrink-0"
+            @click="$router.push({ name: 'Media Details', params: { media: media.media_type, id: media.id } })"
           />
         </div>
       </div>
