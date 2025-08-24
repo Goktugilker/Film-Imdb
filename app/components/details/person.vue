@@ -23,7 +23,7 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
 </script>
 
 <template>
-  <div class="overflow-x-hidden w-full px-16 md:px-18 py-8 flex flex-col md:flex-row">
+  <div class="overflow-x-hidden pl-4 w-full left-24 md:px-18 py-8 flex flex-col md:flex-row">
     <div class="w-full md:w-1/3 mb-6 md:mb-0">
       <div class="flex flex-col justify-center">
         <img
@@ -66,7 +66,7 @@ const shortBio = computed(() => biography.value.slice(0, BIO_LIMIT))
         </div>
       </div>
     </div>
-    <div class="w-full md:w-2/3 -mx-8 ">
+    <div class="w-full md:w-2/3 ">
       <h2 class="text-xl font-bold mt-4">
         {{ detailsStore.person[0]?.name }}
       </h2>
